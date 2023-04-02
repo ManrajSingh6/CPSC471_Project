@@ -1,0 +1,42 @@
+.main-page-container{
+    border-radius: 10px;
+    margin: 50px auto 50px auto;
+    width: 90%;
+    padding: 20px;
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.main-page-container h1{
+    font-size: 1.5rem;
+    text-align: center;
+    color: #273549;
+}
+
+.main-page-container input{
+    margin-top: 20px;
+    width: 60%;
+    padding: 10px;
+    align-self: center;
+    border: 1px solid #273549;
+    outline: none;
+    border-radius: 5px;
+}
+
+.doctor-description-container{
+    margin-top: 20px;
+    border: 1px solid #e2e2e2;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.doctor-description-container h3{
+    color: #273549;
+}
+.doctor-description-container p{
+    font-size: 0.9rem;
+}

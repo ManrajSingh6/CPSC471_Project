@@ -1,0 +1,76 @@
+.main-report-container{
+    border-radius: 10px;
+    margin: 50px auto 50px auto;
+    width: 90%;
+    padding: 20px;
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+}
+
+.report-user-info{
+    margin-top: 20px;
+    width: 100%;
+    border: 1px solid green;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #e2e2e2;
+    padding: 10px;
+    gap: 20px;
+    border-radius: 5px;
+}
+
+.main-report-container h1{
+    color: #273549;
+}
+
+.main-report-container span{
+    font-weight: 300;
+}
+
+.report-user-info p{
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.report-user-info li{
+    margin-left: 30px;
+    list-style: circle;
+}
+
+.info-container{
+    margin-top: 20px;
+}
+
+.report-user-info h3{
+    color: #273549;
+}
+
+.doctor-notes-container{
+    margin-top: 20px;
+    width: 100%;
+    border: 1px solid green;
+    border: 1px solid #e2e2e2;
+    padding: 10px;
+    border-radius: 5px;
+}
+.doctor-note h3, h2{
+    color: #273549;
+}
+.doctor-note {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom: 1px solid #8f97a1;
+}
+
+@media only screen and (max-width: 768px){
+    .report-user-info{
+        grid-template-columns: 1fr;
+    }
+}
+
+@media only screen and (min-width: 1200px){
+    .main-report-container{
+        width: 75%;
+    }
+}

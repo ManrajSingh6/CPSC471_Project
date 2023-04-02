@@ -1,0 +1,90 @@
+.main-login-container{
+    margin: 50px auto 50px auto;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    background-color: #FFFF;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form .login-input-field{
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    border:1px solid #f07900;
+    outline: none;
+    border-radius: 5px;
+}
+
+.login-form h1{
+    text-align: center;
+    margin-bottom: 20px;
+    color: #273549;
+    font-size: 1.5rem;
+}
+
+fieldset{
+    margin-bottom: 10px;
+    border: none;
+    display: flex;
+    gap: 30px;
+}
+
+.login-btn{
+    padding: 10px;
+    background-color: #f07900;
+    border: none;
+    border-radius: 5px;
+    color: #FFFF;
+    width: 100px;
+    align-self: center;
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+
+}
+
+.login-btn:hover{
+    background-color: #c06000;
+    transition: all 0.2s ease; 
+}
+
+@media only screen and (min-width: 350px){
+    .main-login-container{
+        width: 90%;
+    }
+}
+
+/* Mobile Devices */
+@media only screen and (min-width: 480px){
+    .main-login-container{
+        width: 70%;
+    }
+}
+
+/* Tablets */
+@media only screen and (min-width: 768px){
+    .main-login-container{
+        width: 50%;
+    }
+
+}
+
+/* Laptops/small-size screens */
+@media only screen and (min-width: 1024px){
+    .main-login-container{
+        width: 60%;
+    }
+
+}
+
+/* Desktops and larger devices */
+@media only screen and (min-width: 1200px){
+    .main-login-container{
+        width: 40%;
+    }
+}
