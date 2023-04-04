@@ -6,7 +6,6 @@ export default function PatientRecordPage(){
         console.log("Clicked");
     }
 
-
     return(
         <div className="main-report-container">
             <h1>John Doe • <span>johnDoe12</span></h1>

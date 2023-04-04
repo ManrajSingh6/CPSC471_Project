@@ -6,6 +6,8 @@ import Layout from "./Layout.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import PatientRecordPage from "./pages/PatientRecordPage.jsx";
 import ViewDoctorsPage from "./pages/ViewDoctorsPage.jsx";
+import PatientAppointmentPage from "./pages/PatientAppointment.jsx";
+import SearchHospitalsPage from "./pages/SearchHospitalsPage.jsx";
 
 function App() {
   return (
@@ -16,12 +18,12 @@ function App() {
 
           //General Routes
           <Route path={'/register-patient-account'} element={<p>Register patient page</p>} />
-          <Route path={'/search-hospitals'} element={<p>Search hospitals page</p>} />
+          <Route path={'/search-hospitals'} element={<SearchHospitalsPage />} />
           <Route path={'/search-doctors'} element={<ViewDoctorsPage />} />
 
           //Patient Routes
           <Route path={'/patient/:id/record'} element={<PatientRecordPage />} />
-          <Route path={'/patient/:id/appointments'} element={<p>patient appointments page</p>} />
+          <Route path={'/patient/:id/appointments'} element={<PatientAppointmentPage />} />
           <Route path={'/patient/:id/profile'} element={<p>patient profile page</p>} />
 
           //Doctor Routes
