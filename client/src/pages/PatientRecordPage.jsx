@@ -1,55 +1,71 @@
 import "./PatientRecordPage.css";
+import { useState, useEffect} from "react";
+import { useParams } from "react-router-dom";
 
 export default function PatientRecordPage(){
+
+    const {id} = useParams();
+    const [userHealthRecord, setUserHealthRecord] = useState();
+    const [isLoading, setIsLoading] = useState(true);
+    
+    useEffect(() => {
+        async function fetchUserData(){
+            const response = await fetch(`http://localhost:5000/userinfo/patient/${id}`);
+            const jsonData = await response.json();
+            setUserHealthRecord(jsonData);
+            setIsLoading(false);
+        }
+        fetchUserData();
+    }, []);
 
     function showGuardianVisitorInfo(){
         console.log("Clicked");
     }
 
+    if (isLoading){
+        return(<div className="main-report-container">Loading</div>)
+    }
     return(
         <div className="main-report-container">
-            <h1>John Doe • <span>johnDoe12</span></h1>
+            <h1>{userHealthRecord.patientInfo.name} • <span>{userHealthRecord.patientInfo.username}</span></h1>
             <div className="report-user-info">
                 <div className="left-column-container">
                     <div>
                         <h3>Email</h3>
-                        <p>johndoe12@email.com</p>
+                        <p>{userHealthRecord.patientInfo.email}</p>
                     </div>                    
                     <div className="info-container">
                         <h3>SIN Number</h3>
-                        <p>394 584 270</p>
+                        <p>{userHealthRecord.patientInfo.sin}</p>
                     </div>
                     <div className="info-container">
                         <h3>Date of Birth</h3>
-                        <p>September 15th, 1998</p>
+                        <p>{new Date(userHealthRecord.patientInfo.date_of_birth).toLocaleDateString()}</p>
                     </div>
                     <div className="info-container">
                         <h3>Address</h3>
-                        <p>1065 Dundas St, London, Ontario, Canada,  N6B 3L5</p>
+                        <p>{userHealthRecord.patientInfo.house_number + " " + userHealthRecord.patientInfo.street_name + ", " + userHealthRecord.patientInfo.city + ", " + userHealthRecord.patientInfo.province + ", " + userHealthRecord.patientInfo.country + ", " + userHealthRecord.patientInfo.postal_code}</p>
                     </div>
                 </div>
                 <div className="right-column-container">
                     <div>
                         <h3>Guardians/Visitors</h3>
                         <ul>
-                            <li onClick={showGuardianVisitorInfo}>Guardian #1</li>
-                            <li>Guardian #2</li>
-                            <li>Guardian #3</li>
-                            <li>Guardian #4</li>
+                            <li onClick={showGuardianVisitorInfo}>{userHealthRecord.medicalRecord.guardian_name}</li>
                         </ul>
                     </div>
                     <div className="info-container">
                         <h3>Sex</h3>
-                        <p>Male</p>
+                        <p>{userHealthRecord.patientRoomInfo[0].sex}</p>
                     </div>
                     <div style={{display:"flex", flexDirection: "row", gap: "50px"}} className="info-container">
                         <div>
                             <h3>Weight</h3>
-                            <p>175 lbs</p>
+                            <p>{userHealthRecord.patientRoomInfo[0].weight_kg} kg</p>
                         </div>
                         <div>
                             <h3>Height</h3>
-                            <p>5ft 8in</p>
+                            <p>{userHealthRecord.patientRoomInfo[0].height_ft} (ft-in)</p>
                         </div>
                     </div>
                 </div>
@@ -59,27 +75,31 @@ export default function PatientRecordPage(){
                 <div className="left-column-container">
                     <div>
                         <h3>Your Doctor(s)</h3>
-                        <p>Dr. Firstname Lastname (General Practitioner)</p>
+                        <p>{userHealthRecord.medicalRecord.doctor_name}</p>
                     </div>
                     <div className="info-container">
                         <h3>Active Prescriptions</h3>
                         <ul>
-                            <li className="general-list-item">
-                                Medication (DIN Number)
-                                <p>Length: 12 Weeks, Dose: 1 pill/day</p>
-                            </li>
-                            <li className="general-list-item">
-                                Medication (DIN Number)
-                                <p>Length: 12 Weeks, Dose: 1 pill/day</p>
-                            </li>
+                            {
+                                userHealthRecord.patientPrescriptions.map((presc, index) => {
+                                    return(
+                                        <li className="general-list-item" key={index}>
+                                            {presc.prescription}
+                                        <p>Length: {presc.length_weeks} weeks, Dose: {presc.dose_mg} mg</p>
+                                </li>
+                                    )
+                                })
+                            }
                         </ul>
                     </div>
                     <div className="info-container">
                         <h3>Current Health Concerns</h3>
                         <ul>
-                            <li>Low Vitamin B levels</li>
-                            <li>High Cholesterol</li>
-                            <li>BMI Indicates Obesity</li>
+                            {
+                                userHealthRecord.patientHealthIssues.map((issue, index) => {
+                                    return (<li key={index}>{issue.health_issue}</li>)
+                                })
+                            }
                         </ul>
                     </div>
                 </div>
@@ -87,22 +107,13 @@ export default function PatientRecordPage(){
                 <div className="right-column-container">
                     <div>
                         <h3>Your Nurse(s)</h3>
-                        <p>Firstname Lastname (General Nurse)</p>
-                    </div>
-                    <div className="info-container">
-                        <h3>Past Appointments</h3>
-                        <ul>
-                            <li>September 25th, 2004 (4:30 PM)</li>
-                            <li>September 25th, 2004 (4:30 PM)</li>
-                            <li>September 25th, 2004 (4:30 PM)</li>
-                            <li>September 25th, 2004 (4:30 PM)</li>
-                        </ul>
+                        <p>{userHealthRecord.medicalRecord.nurse_name}</p>
                     </div>
                     <div className="info-container">
                         <h3>Assigned Hospital Information</h3>
-                        <p>Rocky View General Hospital</p>
-                        <p>Department: General</p>
-                        <p>Room 121 • General Room • Large Room</p>
+                        <p>Hospital: {userHealthRecord.patientRoomInfo[0].hospital_name} (ID #: {userHealthRecord.patientRoomInfo[0].hospital_id})</p>
+                        <p>Department: {userHealthRecord.patientRoomInfo[0].dept_no}</p>
+                        <p>Room {userHealthRecord.patientRoomInfo[0].room_no} • {userHealthRecord.patientRoomInfo[0].room_type} • Size: {userHealthRecord.patientRoomInfo[0].size_sqft} sq ft.</p>
                     </div>
                 </div>
             </div>
@@ -110,7 +121,7 @@ export default function PatientRecordPage(){
                 <h2 style={{textAlign: "center", marginBottom: "20px"}}>Notes From Doctors</h2>
                 <div className="doctor-note">
                     <h3>Dr. Firstname Lastname</h3>
-                    <p>"You need to start jogging big man"</p>
+                    <p>"NEED TO IMPLEMENT THIS STILL IN THE SQL FILE DATABASE</p>
                 </div>
             </div>
         </div>

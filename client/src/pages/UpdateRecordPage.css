@@ -1,0 +1,94 @@
+.main-record-container{
+    border-radius: 10px;
+    margin: 50px auto 50px auto;
+    width: 90%;
+    padding: 20px;
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+}
+
+.main-record-container h1{
+    color: #273549;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.main-record-container h3{
+    color: #273549;
+}
+
+.sub-container-1{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.sub-container-2{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    padding: 15px;
+    gap: 10px;
+}
+
+.sub-container-1 .container-div{
+    width: 50%;
+    border: 2px solid #e2e2e2;
+    padding: 10px;
+}
+
+.sub-container-1 div input{
+    border-radius: 5px;
+    padding: 5px;
+    outline: none;
+    border: 1px solid #273549;
+    margin: 10px 0px 20px 5px;
+    width: 95%;
+}
+
+.sub-container-1 div textarea{
+    width: 95%;
+    resize: vertical;
+    margin: 15px 0px;
+    outline: none;
+    border: 1px solid #273549;
+    border-radius: 5px;
+    padding: 5px;
+    min-height: 40px;
+}
+.sub-container-1 ul {
+    list-style: circle;
+    margin-left: 30px;
+    margin-top: 10px;
+}
+.sub-container-1 li{
+    list-style: circle;
+    margin-bottom: 5px;
+}
+
+.sub-container-1 li:hover{
+    text-decoration: underline;
+    color: red;
+}
+
+.options-container{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: space-between;
+    padding: 10px 0px;
+}
+
+.options-container input{
+    border: 1px solid #273549;
+    padding: 5px;
+    border-radius: 5px;
+    outline: none;
+    width: 100%;
+}
+
+@media only screen and (max-width: 800px){
+    .options-container{
+        flex-direction: column;
+    }
+}

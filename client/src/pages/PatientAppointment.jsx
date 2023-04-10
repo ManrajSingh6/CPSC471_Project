@@ -1,6 +1,7 @@
 import "./PatientAppointment.css";
 import PatientAppointmentCard from "../components/patientAppointmentCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const tempPatientAppointmentData = [
     {
@@ -22,25 +23,41 @@ const tempPatientAppointmentData = [
 ]
 
 export default function PatientAppointmentPage(){
-
+    const {id} = useParams();
     const [appointmentRequestReason, setAppointmentRequestReason] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+    const [appointmentData, setAppointmentData] = useState('');
+
+    useEffect(() => {
+        async function fetchAppointmentData(){
+            const response = await fetch(`http://localhost:5000/patient-appointments/${id}`);
+            const jsonData = await response.json();
+            setAppointmentData(jsonData);
+            setIsLoading(false);
+        }
+        fetchAppointmentData();
+    }, []);
 
     function handleAppointmentRequest(ev){
         ev.preventDefault();
     }
 
+    if (isLoading){
+        return(<div className="main-report-container">Loading</div>)
+    }
+
     return (
         <div className="main-appointment-container">
             <h1>Upcoming Appointments</h1>
-            <p>Found {tempPatientAppointmentData.length} appointments...</p>
+            <p>Found {appointmentData.length} appointments...</p>
             {
-                tempPatientAppointmentData.map((appointment, index) => {
+                appointmentData.map((appointment, index) => {
                     return (
                         <PatientAppointmentCard {...appointment} key={index}/>
                     )
                 })
             }
-            <div className="appointment-card-container">
+            {/* <div className="appointment-card-container">
                 <h1>Request An Appointment Booking</h1>
                 <p>Reason for appointment:</p>
                 <form onSubmit={handleAppointmentRequest}>
@@ -52,7 +69,7 @@ export default function PatientAppointmentPage(){
                     <button className="primary-btn" style={{width: "200px", alignSelf: "center", marginTop: "20px"}}>Submit Request</button>
                 </form>
                 
-            </div>
+            </div> */}
         </div>
     );
 }

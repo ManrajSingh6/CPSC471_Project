@@ -1,15 +1,41 @@
-import React, {useState} from "react";
-import { Link } from "react-router-dom";
+import React, {useContext, useState} from "react";
+import { Link, Navigate } from "react-router-dom";
 import "./LoginPage.css";
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { UserContext } from "../contexts/UserContext";
 
 export default function LoginPage(){
 
     const [usertype, setUsertype] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [redirect, setRedirect] = useState(false);
 
-    function handleLogin(ev){
+    const {userInfo, setUserInfo} = useContext(UserContext);
+
+    async function handleLogin(ev){
         ev.preventDefault();
+        const response = await fetch('http://localhost:5000/login', {
+            method: 'POST',
+            body: JSON.stringify({usertype, username, password}),
+            headers: {'Content-Type':'application/json'},
+            credentials: 'include',
+        });
+
+        if (response.ok){
+            response.json().then(userInfoRes => {
+                setUserInfo(userInfoRes);
+                setRedirect(true);
+            });
+        } else {
+            toast.error('Invalid Login Credentials');
+        }
+    }
+
+    if (redirect) {
+        return <Navigate to={`/${usertype}/${userInfo.userSIN}/profile`} />
     }
 
     return(

@@ -22,7 +22,7 @@ li{
     display: flex;
     align-items: center;
     justify-content: space-around;
-    gap: 3rem;
+    gap: 2rem;
 }
 .nav__link{
     text-decoration: none;
@@ -54,7 +54,7 @@ li{
     font-weight: 400;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 920px) {
     .nav__toggler {
         display: block;
         cursor: pointer;
@@ -70,6 +70,7 @@ li{
         transform: translateX(100%);
         transition: 0.5s ease-in;
         z-index: 2;
+        gap: 1rem;
     }
     .logo-container{
         display:block;
