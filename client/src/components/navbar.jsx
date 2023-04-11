@@ -61,7 +61,7 @@ export default function Navbar(){
             { userType === 'doctor' && username ? (
                 <ul className={active}>
                     <Link to={`/doctor/${userInfo.userSIN}/appointments`} className="nav__link"><li className="nav__item">Appointments</li></Link>
-                    <Link to="/searchpatients" className="nav__link"><li className="nav__item">View Patients</li></Link>
+                    <Link to={`doctor/${userInfo.userSIN}/searchpatients`} className="nav__link"><li className="nav__item">View Patients</li></Link>
                     <Link to="/search-hospitals" className="nav__link"><li className="nav__item">Hospital Info</li></Link> 
                     <Link to={`/doctor/${userInfo.userSIN}/profile`} className="nav__link"><li className="nav__item">Profile</li></Link>
                     <li className="nav__item" onClick={logout}>Logout</li>
@@ -70,11 +70,11 @@ export default function Navbar(){
 
             { userType === 'admin' && username ? (
                 <ul className={active}>
-                    <Link to="/admin/manage-employees" className="nav__link"><li className="nav__item">Manage Employees</li></Link>
-                    <Link to="/admin/manage-patients" className="nav__link"><li className="nav__item">Manage Patients</li></Link>
-                    <Link to="/admin/manage-equipment" className="nav__link"><li className="nav__item">Manage Equipment</li></Link>
-                    <Link to="/admin/manage-medications" className="nav__link"><li className="nav__item">Manage Medications</li></Link>
-                    <Link to="/admin/view-rooms" className="nav__link"><li className="nav__item">Rooms</li></Link> 
+                    <Link to={`/admin/${userInfo.userSIN}/manage-employees`} className="nav__link"><li className="nav__item">Manage Employees</li></Link>
+                    <Link to={`/admin/${userInfo.userSIN}/manage-patients`} className="nav__link"><li className="nav__item">Manage Patients</li></Link>
+                    <Link to={`/admin/${userInfo.userSIN}/manage-equipment`} className="nav__link"><li className="nav__item">Manage Equipment</li></Link>
+                    <Link to={`/admin/${userInfo.userSIN}/manage-medications`} className="nav__link"><li className="nav__item">Manage Medications</li></Link>
+                    <Link to={`/admin/${userInfo.userSIN}/view-rooms`} className="nav__link"><li className="nav__item">Rooms</li></Link> 
                     <Link to={`/admin/${userInfo.userSIN}/profile`} className="nav__link"><li className="nav__item">Profile</li></Link>
                     <li className="nav__item" onClick={logout}>Logout</li>
                 </ul> ) : (null)

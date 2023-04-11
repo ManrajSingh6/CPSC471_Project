@@ -55,7 +55,7 @@ export default function AdminProfilePage(){
             </div>
             <div className="sub-container-3">
                 <h3>Works At</h3>
-                <p><strong>Hospital: </strong> {hospitalData.hospital_id}</p>
+                <p><strong>Hospital: </strong> {hospitalData.hospital_name}</p>
                 <p><strong>Address: </strong> {hospitalData.house_number + " " + hospitalData.street_name + ", " + hospitalData.city + ", " + hospitalData.province + ", " + hospitalData.country + ", " + hospitalData.postal_code}</p>
                 <p><strong>Hospital ID: </strong> {hospitalData.hospital_id}</p>
                 <p><strong>Department: </strong> {userData.department}</p>

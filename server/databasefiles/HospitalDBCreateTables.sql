@@ -69,6 +69,7 @@ CREATE TABLE DOCTOR (
     qualification VARCHAR(32) NOT NULL,
     specialization VARCHAR(32) NOT NULL,
     dept_no int NULL,
+    hospital_id int NOT NULL,
     CONSTRAINT doctor_fk_dept FOREIGN KEY (dept_no) REFERENCES DEPARTMENT(department_num)
     	ON DELETE SET NULL
 );

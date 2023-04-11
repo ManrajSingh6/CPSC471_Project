@@ -1,60 +1,33 @@
 import "./AdminPagesStyles.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RoomCard from "../components/RoomCard";
-
-const tempRoomData = [
-    {
-      roomNum: "101",
-      deptName: "Cardiology",
-      roomType: "general",
-      roomSize: "large",
-      isOccupied: "Yes",
-    },
-    {
-      roomNum: "102",
-      deptName: "Neurology",
-      roomType: "surgery",
-      roomSize: "medium",
-      isOccupied: "No",
-    },
-    {
-      roomNum: "103",
-      deptName: "Oncology",
-      roomType: "waiting",
-      roomSize: "small",
-      isOccupied: "Yes",
-    },
-    {
-      roomNum: "104",
-      deptName: "Pediatrics",
-      roomType: "general",
-      roomSize: "medium",
-      isOccupied: "No",
-    },
-    {
-      roomNum: "105",
-      deptName: "Orthopedics",
-      roomType: "surgery",
-      roomSize: "large",
-      isOccupied: "Yes",
-    },
-    {
-      roomNum: "106",
-      deptName: "Radiology",
-      roomType: "general",
-      roomSize: "small",
-      isOccupied: "No",
-    },
-];
+import { useParams } from "react-router-dom";
 
 export default function AdminViewRoomsPage(){
     const [searchQuery, setSearchQuery] = useState('');
     const [tempSearchQuery, setTempSearchQuery] = useState('');
+    const [allRooms, setAllRooms] = useState([]);
+    const {id} = useParams();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+      async function fetchAllRooms(){
+          const response = await fetch(`http://localhost:5000/all-rooms/${id}`);
+          const jsonData = await response.json();
+          setAllRooms(jsonData);
+          setIsLoading(false);
+      }
+      fetchAllRooms();
+    }, []);
 
     function handleSearch(ev){
         ev.preventDefault();
         setSearchQuery(tempSearchQuery);
         setTempSearchQuery('');
+    }
+
+    if (isLoading){
+      return(<div className="main-report-container">Loading</div>)
     }
 
     return(
@@ -73,18 +46,17 @@ export default function AdminViewRoomsPage(){
             </button>
             <div className="rooms-card-container">
             {
-                tempRoomData.filter((val) => {
+              allRooms.filter((val) => {
                 if (searchQuery === ""){ return val;} 
-                else if (val.roomNum.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                val.deptName.toLowerCase().includes(searchQuery.toLowerCase())
-                || val.roomType.toLowerCase().includes(searchQuery.toLowerCase())
-                || val.isOccupied.toLowerCase().includes(searchQuery.toLowerCase())
-                || val.roomSize.toLowerCase().includes(searchQuery.toLowerCase())){ return val; }
+                else if (val.room_number.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+                val.name.toLowerCase().includes(searchQuery.toLowerCase())
+                || val.room_type.toLowerCase().includes(searchQuery.toLowerCase())
+                || val.size_sqft.toString().toLowerCase().includes(searchQuery.toLowerCase())){ return val; }
                 }).map((room, index) => {
                     return(
                         <RoomCard key={index} {...room}/>
                     )
-                })
+              })
             }
             </div>
         </div>

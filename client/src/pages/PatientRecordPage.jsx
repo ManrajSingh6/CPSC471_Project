@@ -56,16 +56,16 @@ export default function PatientRecordPage(){
                     </div>
                     <div className="info-container">
                         <h3>Sex</h3>
-                        <p>{userHealthRecord.patientRoomInfo[0].sex}</p>
+                        <p>{userHealthRecord.patientInfo.sex}</p>
                     </div>
                     <div style={{display:"flex", flexDirection: "row", gap: "50px"}} className="info-container">
                         <div>
                             <h3>Weight</h3>
-                            <p>{userHealthRecord.patientRoomInfo[0].weight_kg} kg</p>
+                            <p>{userHealthRecord.patientInfo.weight_kg} kg</p>
                         </div>
                         <div>
                             <h3>Height</h3>
-                            <p>{userHealthRecord.patientRoomInfo[0].height_ft} (ft-in)</p>
+                            <p>{userHealthRecord.patientInfo.height_ft} (ft-in)</p>
                         </div>
                     </div>
                 </div>
@@ -111,9 +111,14 @@ export default function PatientRecordPage(){
                     </div>
                     <div className="info-container">
                         <h3>Assigned Hospital Information</h3>
-                        <p>Hospital: {userHealthRecord.patientRoomInfo[0].hospital_name} (ID #: {userHealthRecord.patientRoomInfo[0].hospital_id})</p>
-                        <p>Department: {userHealthRecord.patientRoomInfo[0].dept_no}</p>
-                        <p>Room {userHealthRecord.patientRoomInfo[0].room_no} • {userHealthRecord.patientRoomInfo[0].room_type} • Size: {userHealthRecord.patientRoomInfo[0].size_sqft} sq ft.</p>
+                        <p>Hospital: {userHealthRecord.patientInfo.hospital_name} (ID #: {userHealthRecord.patientInfo.hospital_id})</p>
+                        {
+                            userHealthRecord.patientInfo.room_no === null ? (<p><strong>No room assigned yet. Ask an Admin to do so.</strong></p>) : (<>
+                                <p>Department: {userHealthRecord.patientRoomInfo[0]?.dept_no}</p>
+                                <p>Room {userHealthRecord.patientInfo.room_no} • {userHealthRecord.patientRoomInfo[0]?.room_type} • Size: {userHealthRecord.patientRoomInfo[0]?.size_sqft} sq ft.</p>
+                            </>)
+                        }
+                        
                     </div>
                 </div>
             </div>

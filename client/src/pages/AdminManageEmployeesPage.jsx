@@ -1,31 +1,28 @@
 import "./AdminPagesStyles.css";
-import { useState } from "react";
 import EmployeeCard from "../components/EmployeeCard";
-
-
-const tempEmployeeData = [
-    {
-      name: "John Smith",
-      SINnum: 123456789,
-      dateOfBirth: "September 5th, 2002",
-    },
-    {
-      name: "Jane Doe",
-      SINnum: 987654321,
-      dateOfBirth: "July 12th, 1995",
-    },
-    {
-      name: "Bob Johnson",
-      SINnum: 456789123,
-      dateOfBirth: "December 25th, 1980",
-    },
-];
+import { useState, useEffect } from "react";
+import {useParams} from "react-router-dom";
   
-  
-
 export default function AdminManageEmployeesPage(){
     const [searchQuery, setSearchQuery] = useState('');
     const [tempSearchQuery, setTempSearchQuery] = useState('');
+
+    const [isLoading, setIsLoading] = useState(true);
+    const {id} = useParams();
+    const [allDoctors, setAllDoctors] = useState([]);
+    const [allNurses, setAllNurses] = useState([]);
+
+
+    useEffect(() => {
+        async function fetchAllHospitalEmployees(){
+            const response = await fetch(`http://localhost:5000/hospital/${id}/employees`);
+            const jsonData = await response.json();
+            setAllDoctors(jsonData.allDoctors);
+            setAllNurses(jsonData.allNurses);
+            setIsLoading(false);
+        }
+        fetchAllHospitalEmployees();
+    }, [])
 
     function handleSearch(ev){
         ev.preventDefault();
@@ -35,6 +32,10 @@ export default function AdminManageEmployeesPage(){
 
     function addEmployee(ev){
         ev.preventDefault();
+    }
+
+    if (isLoading){
+        return(<div className="main-report-container">Loading</div>)
     }
 
     return(
@@ -58,12 +59,23 @@ export default function AdminManageEmployeesPage(){
                 Add Employee
             </button>
             {
-                tempEmployeeData.filter((val) => {
+                allDoctors.filter((val) => {
                 if (searchQuery === ""){ return val;} 
                 else if (val.name.toLowerCase().includes(searchQuery.toLowerCase())){ return val; }
                 }).map((employee, index) => {
                     return(
-                        <EmployeeCard key={index} {...employee} />
+                        <EmployeeCard key={index} {...employee} cardType="doctor"/>
+                    )
+                })
+            }
+
+            {
+                allNurses.filter((val) => {
+                if (searchQuery === ""){ return val;} 
+                else if (val.name.toLowerCase().includes(searchQuery.toLowerCase())){ return val; }
+                }).map((employee, index) => {
+                    return(
+                        <EmployeeCard key={index} {...employee}/>
                     )
                 })
             }

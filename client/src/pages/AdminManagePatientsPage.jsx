@@ -1,38 +1,26 @@
 import "./AdminPagesStyles.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AdminPatientCard from "../components/AdminPatientCard";
+import {useParams} from "react-router-dom";
 
-const tempPatientData = [
-    {
-      name: "John Smith",
-      SINnum: 123456789,
-      dateOfBirth: "September 25th, 2002"
-    },
-    {
-      name: "Jane Doe",
-      SINnum: 987654321,
-      dateOfBirth: "January 1st, 2000"
-    },
-    {
-      name: "Michael Johnson",
-      SINnum: 234567890,
-      dateOfBirth: "December 12th, 1998"
-    },
-    {
-      name: "Emily Davis",
-      SINnum: 345678901,
-      dateOfBirth: "April 5th, 1995"
-    },
-    {
-      name: "David Lee",
-      SINnum: 456789012,
-      dateOfBirth: "November 15th, 1990"
-    }
-];
 
 export default function AdminManagePatientsPage(){
     const [searchQuery, setSearchQuery] = useState('');
     const [tempSearchQuery, setTempSearchQuery] = useState('');
+
+    const [isLoading, setIsLoading] = useState(true);
+    const {id} = useParams();
+    const [allPatients, setAllPatients] = useState([]);
+
+    useEffect(() => {
+        async function fetchAllPatientsAtHospital(){
+            const response = await fetch(`http://localhost:5000/hospital/${id}/patients`);
+            const jsonData = await response.json();
+            setAllPatients(jsonData);
+            setIsLoading(false);
+        }
+        fetchAllPatientsAtHospital();
+    }, [])
 
     function handleSearch(ev){
         ev.preventDefault();
@@ -47,6 +35,10 @@ export default function AdminManagePatientsPage(){
     function addPatient(ev){
         ev.preventDefault();
 
+    }
+
+    if (isLoading){
+        return(<div className="main-report-container">Loading</div>)
     }
 
     return(
@@ -70,7 +62,7 @@ export default function AdminManagePatientsPage(){
                 Add New Patient
             </button>
             {
-                tempPatientData.filter((val) => {
+                allPatients.filter((val) => {
                 if (searchQuery === ""){ return val;} 
                 else if (val.name.toLowerCase().includes(searchQuery.toLowerCase())){ return val; }
                 }).map((patient, index) => {

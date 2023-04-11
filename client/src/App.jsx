@@ -43,17 +43,17 @@ function App() {
             <Route path={'/patient/:id/profile'} element={<PatientProfilePage />} />
 
             //Doctor Routes
-            <Route path={'/searchpatients'} element={<SearchDoctorPatientsPage />} />
+            <Route path={'/doctor/:id/searchpatients'} element={<SearchDoctorPatientsPage />} />
             <Route path={'/patient/:id/update-record'} element={<UpdateRecordPage />} />
             <Route path={'/doctor/:id/appointments'} element={<DoctorAppointmentPage />} />
             <Route path={'/doctor/:id/profile'} element={<DoctorProfilePage />} />
 
             //Admin Routes
-            <Route path={'/admin/manage-patients'} element={<AdminManagePatientsPage />} />
-            <Route path={'/admin/view-rooms'} element={<AdminViewRoomsPage />} />
-            <Route path={'/admin/manage-employees'} element={<AdminManageEmployeesPage />} />
-            <Route path={'/admin/manage-equipment'} element={<AdminViewEquipmentPage />} />
-            <Route path={'/admin/manage-medications'} element={<AdminViewMedicationsPage />} />
+            <Route path={'/admin/:id/manage-patients'} element={<AdminManagePatientsPage />} />
+            <Route path={'/admin/:id/view-rooms'} element={<AdminViewRoomsPage />} />
+            <Route path={'/admin/:id/manage-employees'} element={<AdminManageEmployeesPage />} />
+            <Route path={'/admin/:id/manage-equipment'} element={<AdminViewEquipmentPage />} />
+            <Route path={'/admin/:id/manage-medications'} element={<AdminViewMedicationsPage />} />
             <Route path={'/admin/:id/profile'} element={<AdminProfilePage />} />
 
           </Route>

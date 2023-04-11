@@ -12,7 +12,16 @@ import {
     getAllHospitalData,
     getDoctorInfo,
     getAllDoctorNurseCardInfo,
-    getPatientAppointments
+    getPatientAppointments,
+    getAllPatientsByDoctor,
+    getAllDoctorAppointments,
+    getAllHospitalRoomInfo,
+    getAllMedicationsAtHospital,
+    getAllEquipmentAtHospital,
+    getAllPatientsByHospital,
+    getAllEmployeesByHospital,
+    hospitalOptions,
+    registerUser
 } from '../server/database.js';
 
 const secret = 'asdfe45we45w345wegw345werjktjwertkj';
@@ -44,6 +53,18 @@ app.post('/login', async (req, res) => {
         });
     } else {
         res.status(400).json("Invalid Credentials");
+    }
+});
+
+app.post('/register', async (req, res) => {
+    const {patientData, guardianData} = req.body;
+    const registeredUserSuccess = await registerUser(patientData, guardianData);
+
+    if (registeredUserSuccess === "Creation Error" || registeredUserSuccess === "User Exists"){
+        res.status(400).json(registeredUserSuccess);
+    } 
+    if (registeredUserSuccess === "Created Account"){
+        res.status(200).json(registeredUserSuccess);
     }
 });
 
@@ -97,6 +118,59 @@ app.get('/patient-appointments/:id', async (req, res) => {
     const {id} = req.params;
     const allPatientAppointments = await getPatientAppointments(id);
     res.status(200).json(allPatientAppointments);
+});
+
+app.get('/doctor-patients/:doctor_id', async (req, res) => {
+    const {doctor_id} = req.params;
+    const allDoctorPatients = await getAllPatientsByDoctor(doctor_id);
+    res.status(200).json(allDoctorPatients);
+});
+
+app.get('/doctor-appointments/:doctor_id', async (req, res) => {
+    const {doctor_id} = req.params;
+    const allDoctorAppointments = await getAllDoctorAppointments(doctor_id);
+    res.status(200).json(allDoctorAppointments);
+});
+
+app.get('/all-rooms/:admin_id', async (req, res) => {
+    const {admin_id} = req.params;
+    const allHositalRooms = await getAllHospitalRoomInfo(admin_id);
+    res.status(200).json(allHositalRooms);
+});
+
+app.get('/hospital/:admin_id/medications', async (req, res) => {
+    const {admin_id} = req.params;
+    const allHospitalMeds = await getAllMedicationsAtHospital(admin_id);
+    res.status(200).json(allHospitalMeds);
+});
+
+app.get('/hospital/:admin_id/equipment', async (req, res) => {
+    const {admin_id} = req.params;
+    const allHospitalEquipment = await getAllEquipmentAtHospital(admin_id);
+    res.status(200).json(allHospitalEquipment);
+});
+
+app.get('/hospital/:admin_id/patients', async (req, res) => {
+    const {admin_id} = req.params;
+    const allPatientsByHospital = await getAllPatientsByHospital(admin_id);
+    res.status(200).json(allPatientsByHospital);
+});
+
+app.get('/hospital/:admin_id/patients', async (req, res) => {
+    const {admin_id} = req.params;
+    const allPatientsByHospital = await getAllPatientsByHospital(admin_id);
+    res.status(200).json(allPatientsByHospital);
+});
+
+app.get('/hospital/:admin_id/employees', async (req, res) => {
+    const {admin_id} = req.params;
+    const allEmployeesByHospital = await getAllEmployeesByHospital(admin_id);
+    res.status(200).json(allEmployeesByHospital);
+});
+
+app.get('/hospitaloptions', async (req, res) => {
+    const allHospitalOptions = await hospitalOptions();
+    res.status(200).json(allHospitalOptions);
 });
 
 // Run app on port 5000

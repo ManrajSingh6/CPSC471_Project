@@ -1,34 +1,36 @@
 import "../pages/AdminPagesStyles.css";
 
-export default function SupplyCard({Name, ID, category, price, availableQuantity, manufacturer, dinNum, expiryDate, itemType, warranty, equipmentNumber}){
+export default function SupplyCard(props){
     return(<>
         {
-            itemType === "Medication" ? (
+            props.itemType === "Medication" ? (
                 <div className="supplies-card-container">
                     <div>
-                        <p><strong>{Name} | {ID}</strong></p>
-                        <p>Category: {category}</p>
-                        <p>Price: ${price}</p>
-                        <p>Available Quantity: {availableQuantity}</p>
+                        <p><strong>{props.name} | {props.item_id}</strong></p>
+                        <p>Category: {props.category}</p>
+                        <p>Price: ${props.price}</p>
+                        <p>Available Quantity: {props.quantity}</p>
                     </div>
                     <div>
-                        <p>Manufacturer: {manufacturer}</p>
-                        <p>DIN Number: {dinNum}</p>
-                        <p>Expiry Date: {expiryDate}</p>
+                        <p>DIN Number: {props.din_number}</p>
+                        <p>Expiry Date: {new Date(props.expiry_date).toLocaleDateString()}</p>
                     </div>
                 </div>
             ) : (
                 <div className="supplies-card-container">
                     <div>
-                        <p><strong>{Name} | {ID}</strong></p>
-                        <p>Category: {category}</p>
-                        <p>Price: ${price}</p>
-                        <p>Available Quantity: {availableQuantity}</p>
+                        <p><strong>{props.name} | {props.item_id}</strong></p>
+                        <p>Category: {props.category}</p>
+                        <p>Price: ${props.price}</p>
+                        <p>Available Quantity: {props.quantity}</p>
+                        <p>Equipment Number: {props.equipment_number}</p>
                     </div>
                     <div>
-                        <p>Manufacturer: {manufacturer}</p>
-                        <p>Warranty: {warranty}</p>
-                        <p>Equipment Number: {equipmentNumber}</p>
+                        <p>Manufacturer: {props.manufacturer}</p>
+                        <p>Warranty Name: {props.warranty_name}</p>
+                        <p>Warranty Start Date: {new Date(props.warranty_start).toLocaleDateString()}</p>
+                        <p>Warranty Length: {props.warranty_length_months}</p>
+                        
                     </div>
                 </div>
             )

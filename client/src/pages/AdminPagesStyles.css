@@ -80,7 +80,7 @@
     }
 }
 
-@media only screen and (max-width: 500px){
+@media only screen and (max-width: 580px){
     .rooms-card-container{
         grid-template-columns: repeat(2, 1fr);
     }

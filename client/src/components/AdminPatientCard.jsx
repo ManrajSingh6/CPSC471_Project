@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "../pages/AdminPagesStyles.css";
 
-export default function AdminPatientCard({name, dateOfBirth, SINnum}){
+export default function AdminPatientCard(props){
 
     function manageAppointments(ev){
         ev.preventDefault();
@@ -14,10 +14,10 @@ export default function AdminPatientCard({name, dateOfBirth, SINnum}){
     }      
     return(
         <div className="room-card">
-            <h3>{name} | {SINnum}</h3>
-            <p><strong>Date of birth: </strong>{dateOfBirth}</p>
+            <h3>{props.name} | {props.sin}</h3>
+            <p><strong>Date of birth: </strong>{new Date(props.date_of_birth).toLocaleDateString()}</p>
             <div style={{marginTop: "25px"}}>
-                <Link to="/patient/:id/record">
+                <Link to={`/patient/${props.sin}/record`}>
                     <button 
                         className="primary-btn" 
                         style={{marginTop: "5px", boxShadow: "none"}}>

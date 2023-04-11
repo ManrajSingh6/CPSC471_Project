@@ -13,6 +13,7 @@ export default function DoctorProfilePage(){
         }).then(response => {
             response.json().then(resData => {
                 setDoctorData(resData.doctorInfo);
+                console.log(resData.doctorInfo);
                 setDoctorPatients(resData.patientsAttendedTo);
             });
         });
@@ -30,10 +31,10 @@ export default function DoctorProfilePage(){
                     <h3>Email</h3>
                     <p>{doctorData.email}</p>
                 </div>
-                {/* <div>
+                <div>
                     <h3>Phone Number</h3>
-                    <p>123-456-7899</p>
-                </div> */}
+                    <p>{doctorData.phone_number}</p>
+                </div>
                 <div>
                     <h3>SIN Number</h3>
                     <p>{doctorData.sin}</p>
@@ -70,13 +71,11 @@ export default function DoctorProfilePage(){
                 </ul>
             </div>
             <div className="sub-container-3">
-                <h3>Works At (STILL NEED TO IMPLEMENT FROM DB)</h3>
-                <p><strong>Hospital: </strong> Rocky View General</p>
-                <p><strong>Address: </strong> 123 Rocky St, Edmonton, Alberta, Canada, T3R 0B3</p>
-                <p><strong>Hospital ID: </strong> 12344</p>
-                <p><strong>Department: </strong> Department of Heart Surgery</p>
-                <p><strong>Department Number: </strong> 457</p>
-                <p><strong>Number of rooms in department: </strong> 150</p>
+                <h3>Works At</h3>
+                <p><strong>Hospital: </strong> {doctorData.hospital_name}</p>
+                <p><strong>Hospital ID: </strong> {doctorData.hospital_id}</p>
+                <p><strong>Department: </strong> {doctorData.department_name}</p>
+                <p><strong>Department Number: </strong> {doctorData.dept_no}</p>
             </div>
         </div>
     );

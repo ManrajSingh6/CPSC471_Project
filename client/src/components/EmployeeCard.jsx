@@ -1,6 +1,6 @@
 import "../pages/AdminPagesStyles.css";
 
-export default function EmployeeCard({name, dateOfBirth, SINnum}){
+export default function EmployeeCard(props){
 
     function manageAppointments(ev){
         ev.preventDefault();
@@ -13,15 +13,21 @@ export default function EmployeeCard({name, dateOfBirth, SINnum}){
     }      
     return(
         <div className="room-card">
-            <h3>Dr. {name} | {SINnum}</h3>
-            <p><strong>Date of birth: </strong>{dateOfBirth}</p>
+        {
+            props.cardType === "doctor" ? (<h3>Dr. {props.name} | {props.sin}</h3>) : (<h3>Nurse: {props.name} | {props.sin}</h3>)
+        }
+            <p><strong>Date of birth: </strong>{new Date(props.date_of_birth).toLocaleDateString()}</p>
             <div style={{marginTop: "25px"}}>
-                <button 
-                    className="primary-btn" 
-                    onClick={manageAppointments}
-                    style={{marginTop: "5px", boxShadow: "none"}}>
-                    Manage Appointments
-                </button>
+            {
+                props.cardType === "doctor" ? (
+                    <button 
+                        className="primary-btn" 
+                        onClick={manageAppointments}
+                        style={{marginTop: "5px", boxShadow: "none"}}>
+                        Manage Appointments
+                    </button>
+                ) : (null)
+            }
                 <button 
                     className="primary-btn" 
                     onClick={updateAccountInfo}

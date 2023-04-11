@@ -1,6 +1,7 @@
 import "./SearchDoctorPatientsPage.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PatientCard from "../components/patientCard";
+import { useParams } from "react-router-dom";
 
 const tempPatientData = [
     {
@@ -18,14 +19,30 @@ const tempPatientData = [
 ];
 
 export default function SearchDoctorPatientsPage(){
-
+    const {id} = useParams();
     const [searchQuery, setSearchQuery] = useState('');
     const [tempSearchQuery, setTempSearchQuery] = useState('');
+    const [allPatientsByDoctor, setAllPatientsByDoctor] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchAllPatientData(){
+            const response = await fetch(`http://localhost:5000/doctor-patients/${id}`);
+            const jsonData = await response.json();
+            setAllPatientsByDoctor(jsonData);
+            setIsLoading(false);
+        }
+        fetchAllPatientData();
+    }, []);
 
     function handleSearch(ev){
         ev.preventDefault();
         setSearchQuery(tempSearchQuery);
         setTempSearchQuery('');
+    }
+
+    if (isLoading){
+        return(<div className="main-report-container">Loading</div>)
     }
 
     return (
@@ -42,11 +59,11 @@ export default function SearchDoctorPatientsPage(){
                 style={{marginTop: "25px", marginBottom: "25px", alignSelf: "center"}}>
                 Find
             </button>
-            <p>Found {tempPatientData.length} results...</p>
+            <p>Found {allPatientsByDoctor.length} results...</p>
             {
-                tempPatientData.filter((val) => {
+                allPatientsByDoctor.filter((val) => {
                 if (searchQuery === ""){ return val;} 
-                else if (val.pName.toLowerCase().includes(searchQuery.toLowerCase())){ return val; }
+                else if (val.name.toLowerCase().includes(searchQuery.toLowerCase())){ return val; }
                 }).map((patient, index) => {
                     return (
                         <PatientCard {...patient} key={index}/>

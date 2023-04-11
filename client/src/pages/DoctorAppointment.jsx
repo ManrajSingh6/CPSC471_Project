@@ -1,33 +1,34 @@
 import "./DoctorAppointment.css";
 import DoctorAppointmentCard from "../components/doctorAppointmentCard";
-
-const tempDoctorAppointmentData = [
-    {
-        pName: "Firstname Lastname",
-        pAppDate: "November 25th, 2004",
-        pAppTime: "4:30 PM",
-        pAppLoc: "Rockyview General Hospital",
-        pAppAddr: "123 Rocky St, Edmonton, Alberta, Canada, T3R 0B3",
-        pAppMessage: "Patient Appointment Reason"
-    },
-    {
-        pName: "Firstname Lastname",
-        pAppDate: "November 25th, 2004",
-        pAppTime: "4:30 PM",
-        pAppLoc: "Rockyview General Hospital",
-        pAppAddr: "123 Rocky St, Edmonton, Alberta, Canada, T3R 0B3",
-        pAppMessage: "Patient Appointment Reason"
-    }
-    
-]
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 export default function DoctorAppointmentPage(){
+
+    const [allAppointments, setAllAppointments] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const {id} = useParams();
+
+    useEffect(() => {
+        async function fetchAllAppointments(){
+            const response = await fetch(`http://localhost:5000/doctor-appointments/${id}`);
+            const jsonData = await response.json();
+            setAllAppointments(jsonData);
+            setIsLoading(false);
+        }
+        fetchAllAppointments();
+    }, []);
+
+    if (isLoading){
+        return(<div className="main-report-container">Loading</div>)
+    }
+
     return(
         <div className="main-appointment-container">
             <h1>Upcoming Appointments</h1>
-            <p>Found {tempDoctorAppointmentData.length} appointments...</p>
+            <p>Found {allAppointments.length} appointments...</p>
             {
-                tempDoctorAppointmentData.map((appointment, index) => {
+                allAppointments.map((appointment, index) => {
                     return (
                         <DoctorAppointmentCard {...appointment} key={index}/>
                     )

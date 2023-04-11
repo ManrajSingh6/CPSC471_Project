@@ -1,34 +1,25 @@
 import "./AdminPagesStyles.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SupplyCard from "../components/SupplyCard";
-
-const tempEquipmentData = [
-    {
-        Name: "X-Ray Machine",
-        ID: "11234",
-        category: "Machines",
-        price: "2500.99",
-        availableQuantity: "30",
-        manufacturer: "Medico",
-        warranty: "25 months",
-        equipmentNumber: "128990"
-    },
-    {
-        Name: "Test M",
-        ID: "5233",
-        category: "Machines",
-        price: "2500.99",
-        availableQuantity: "30",
-        manufacturer: "Medico",
-        warranty: "25 months",
-        equipmentNumber: "128990"
-    },
-    
-];
+import {useParams} from "react-router-dom";
 
 export default function AdminViewEquipmentPage(){
     const [searchQuery, setSearchQuery] = useState('');
     const [tempSearchQuery, setTempSearchQuery] = useState('');
+
+    const [isLoading, setIsLoading] = useState(true);
+    const {id} = useParams();
+    const [allEquipment, setAllEquipment] = useState([]);
+
+    useEffect(() => {
+        async function fetchAllEquipment(){
+            const response = await fetch(`http://localhost:5000/hospital/${id}/equipment`);
+            const jsonData = await response.json();
+            setAllEquipment(jsonData);
+            setIsLoading(false);
+        }
+        fetchAllEquipment();
+    }, []);
 
     function handleSearch(ev){
         ev.preventDefault();
@@ -38,6 +29,10 @@ export default function AdminViewEquipmentPage(){
 
     function orderMedication(ev){
         ev.preventDefault();
+    }
+
+    if (isLoading){
+        return(<div className="main-report-container">Loading</div>)
     }
 
     return(
@@ -61,13 +56,13 @@ export default function AdminViewEquipmentPage(){
                 Order Equipment
             </button>
             {
-                tempEquipmentData.filter((val) => {
+                allEquipment.filter((val) => {
                 if (searchQuery === ""){ return val;} 
-                else if (val.Name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                val.ID.toLowerCase().includes(searchQuery.toLowerCase())){ return val; }
-                }).map((med, index) => {
+                else if (val.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                val.item_id.toString().toLowerCase().includes(searchQuery.toLowerCase())){ return val; }
+                }).map((equipment, index) => {
                     return(
-                        <SupplyCard key={index} {...med} itemType={"Equipment"}/>
+                        <SupplyCard key={index} {...equipment} itemType={"Equipment"}/>
                     )
                 })
             }

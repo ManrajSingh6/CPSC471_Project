@@ -1,6 +1,9 @@
 import "./RegisterPatientAccountPage.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function RegisterPatientAccountPage(){
 
@@ -37,10 +40,40 @@ export default function RegisterPatientAccountPage(){
         gPostalCode: "",
     });
 
-    function registerAccount(ev){
+    const [hospitalOptions, setHospitalOptions] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [redirect, setRedirect] = useState(false);
+
+    useEffect(() => {
+        fetch(`http://localhost:5000/hospitaloptions`, {
+            credentials: 'include',
+        }).then(response => {
+            response.json().then(resData => {
+                setHospitalOptions(resData);
+                setIsLoading(false);
+            });
+        });
+    }, []);
+
+    async function registerAccount(ev){
         ev.preventDefault();
-        console.log(patientInfo);
-        console.log(primaryGuardianInfo);
+        // console.log(patientInfo);
+        // console.log(primaryGuardianInfo);
+
+        const response = await fetch(`http://localhost:5000/register`, {
+            method: 'POST',
+            body: JSON.stringify({patientData: patientInfo, guardianData: primaryGuardianInfo}),
+            headers: {'Content-Type':'application/json'}
+        });
+
+        if (response.ok){
+            response.json().then(res => {
+                setRedirect(true);
+            });
+        } else {
+            setRedirect(false);
+            toast.error("Error creating account! User already exists!");
+        }
     }
 
     function autofillAddress(){
@@ -69,6 +102,14 @@ export default function RegisterPatientAccountPage(){
             ...prev,
             [name]: value
         }));
+    }
+
+    if (isLoading){
+        return(<div className="main-report-container">Loading</div>)
+    }
+
+    if (redirect){
+        return (<Navigate to="/"/>);
     }
 
     return(
@@ -178,10 +219,13 @@ export default function RegisterPatientAccountPage(){
                         name="pHeight"       
                         onChange={handlePatientInfoChange}       
                     />
-                    <select id="hospital-pref" name="pHospitalPref" onChange={handlePatientInfoChange}>
+                    <select id="hospital-pref" name="pHospitalPref" value={patientInfo.pHospitalPref} onChange={handlePatientInfoChange}>
                         <option value="">Select Hospital Preference</option>
-                        <option value="hosp1">Hosp1</option>
-                        <option value="hosp2">Hosp2</option>
+                        {
+                            hospitalOptions.map((item, index) => {
+                                return(<option key={index} value={item.hospital_id}>{item.hospital_name}</option>);
+                            })
+                        }
                     </select>
                 </div>
                 <label htmlFor="primary-gv">Add primary guardian/visitor</label>

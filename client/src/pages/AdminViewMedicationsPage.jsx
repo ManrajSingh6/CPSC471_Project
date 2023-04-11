@@ -1,33 +1,25 @@
 import "./AdminPagesStyles.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SupplyCard from "../components/SupplyCard";
-
-const tempMedicationData = [
-    {
-        Name: "Promethazine Codeine",
-        ID: "3124",
-        category: "Cough Syrup",
-        price: "25.99",
-        availableQuantity: "300",
-        manufacturer: "LeanCo",
-        dinNum: "12347788",
-        expiryDate: "11/25/2005"
-    },
-    {
-        Name: "Test",
-        ID: "1234",
-        category: "Cough Syrup",
-        price: "25.99",
-        availableQuantity: "300",
-        manufacturer: "LeanCo",
-        dinNum: "12347788",
-        expiryDate: "11/25/2005"
-    },
-];
+import {useParams} from "react-router-dom";
 
 export default function AdminViewMedicationsPage(){
     const [searchQuery, setSearchQuery] = useState('');
     const [tempSearchQuery, setTempSearchQuery] = useState('');
+
+    const [isLoading, setIsLoading] = useState(true);
+    const {id} = useParams();
+    const [allMeds, setAllMeds] = useState([]);
+
+    useEffect(() => {
+        async function fetchAllMeds(){
+            const response = await fetch(`http://localhost:5000/hospital/${id}/medications`);
+            const jsonData = await response.json();
+            setAllMeds(jsonData);
+            setIsLoading(false);
+        }
+        fetchAllMeds();
+    }, []);
 
     function handleSearch(ev){
         ev.preventDefault();
@@ -37,6 +29,10 @@ export default function AdminViewMedicationsPage(){
 
     function orderMedication(ev){
         ev.preventDefault();
+    }
+
+    if (isLoading){
+        return(<div className="main-report-container">Loading</div>)
     }
 
     return(
@@ -60,10 +56,10 @@ export default function AdminViewMedicationsPage(){
                 Order Medication
             </button>
             {
-                tempMedicationData.filter((val) => {
+                allMeds.filter((val) => {
                 if (searchQuery === ""){ return val;} 
-                else if (val.Name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                val.ID.toLowerCase().includes(searchQuery.toLowerCase())){ return val; }
+                else if (val.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                val.item_id.toString().toLowerCase().includes(searchQuery.toLowerCase())){ return val; }
                 }).map((med, index) => {
                     return(
                         <SupplyCard key={index} {...med} itemType={"Medication"}/>
