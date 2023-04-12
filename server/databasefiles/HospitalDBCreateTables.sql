@@ -7,7 +7,8 @@ CREATE TABLE PERSON (
     postal_code varchar(7) NOT NULL,
     city varchar(32) NOT NULL,
     province varchar(20) NOT NULL,
-    country varchar(20) NOT NULL
+    country varchar(20) NOT NULL,
+    phone_number varchar(13) NOT NULL
 );
 
 CREATE TABLE HOSPITAL (
@@ -148,8 +149,9 @@ CREATE TABLE GUARDIAN_VISITOR (
 CREATE TABLE NURSE (
     sin int NOT NULL PRIMARY KEY REFERENCES PERSON(sin)
     	ON DELETE CASCADE,
-    type varchar(20) NOT NULL,
-    position_type varchar(20) NULL
+    type varchar(255) NOT NULL,
+    position_type varchar(20) NULL,
+    hospital_id int
 );
 
 CREATE TABLE NURSE_ASSISTS_PATIENT (

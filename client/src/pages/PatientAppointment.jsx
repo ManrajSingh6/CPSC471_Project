@@ -3,36 +3,20 @@ import PatientAppointmentCard from "../components/patientAppointmentCard";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-const tempPatientAppointmentData = [
-    {
-        doctorName: "Mark Zuckerberg",
-        appointmentDate: "November 25th, 2004",
-        appointmentTime: "4:30 PM",
-        appointmentLocation: "Rockyview General Hospital",
-        appointmentAddress: "123 Rocky St, Edmonton, Alberta, Canada, T3R 0B3",
-        appointmentMessage: "This appointment will be a general appointment to get your yearly physical checkup done."
-    },
-    {
-        doctorName: "Mark Zuckerberg",
-        appointmentDate: "November 25th, 2004",
-        appointmentTime: "4:30 PM",
-        appointmentLocation: "Rockyview General Hospital",
-        appointmentAddress: "123 Rocky St, Edmonton, Alberta, Canada, T3R 0B3",
-        appointmentMessage: "This appointment will be a general appointment to get your yearly physical checkup done."
-    }
-]
-
 export default function PatientAppointmentPage(){
     const {id} = useParams();
     const [appointmentRequestReason, setAppointmentRequestReason] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [appointmentData, setAppointmentData] = useState('');
+    const [patientHealthIssues, setPatientHealthIssues] = useState('');
 
     useEffect(() => {
         async function fetchAppointmentData(){
             const response = await fetch(`http://localhost:5000/patient-appointments/${id}`);
             const jsonData = await response.json();
-            setAppointmentData(jsonData);
+            setPatientHealthIssues(jsonData.healthIssues);
+            setAppointmentData(jsonData.patientAppointmentInfo);
+            // setPatientHealthIssues(jsonData.allPatientHealthIssues);
             setIsLoading(false);
         }
         fetchAppointmentData();
@@ -53,7 +37,7 @@ export default function PatientAppointmentPage(){
             {
                 appointmentData.map((appointment, index) => {
                     return (
-                        <PatientAppointmentCard {...appointment} key={index}/>
+                        <PatientAppointmentCard {...appointment} healthIssues={patientHealthIssues} key={index}/>
                     )
                 })
             }

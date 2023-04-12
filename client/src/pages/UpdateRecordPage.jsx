@@ -1,98 +1,246 @@
 import "./UpdateRecordPage.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Dropdown from "../components/dropdown";
+import {useParams} from "react-router-dom";
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const availableOptions = [
-    "1 day", "2 days", "3 days", "5 days", "1 week", "2 weeks", "3 weeks", "1 month",
-    "2 months", "3 months"
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10'
 ];
 
-const dosageOptions = ["1 pill once a day", "2 pills once a day", "1 pill twice a day", "2 pills twice a day", "3 pills twice a day", "1 pill three times a day", "2 pills three times a day", "3 pills three times a day", "1 pill every 4 hours", "2 pills every 4 hours", "1 pill every 6 hours", "2 pills every 6 hours", "1 pill every 8 hours", "2 pills every 8 hours", "1 pill every 12 hours", "2 pills every 12 hours", "1 pill every 24 hours", "2 pills every 24 hours"];
-
+const dosageOptions = [
+    25,
+    50,
+    75,
+    100,
+    150,
+    200,
+    250,
+    300,
+    350,
+    400,
+    450,
+    500,
+    550,
+    600,
+    650,
+    700,
+    750,
+    800,
+    850,
+    900,
+    950,
+    1000
+];
 
 export default function UpdateRecordPage(){
+    const [isLoading, setIsLoading] = useState(false);
 
     const [newHealthConcern, setNewHealthConcern] = useState('');
     const [newNote, setNewNote] = useState('');
     const [medName, setMedName] = useState('');
     const [prescLength, setPrescLength] = useState('');
     const [dosage, setDosage] = useState('');
+
+    const [currentHealthConcerns, setCurrentHealthConcerns] = useState([]);
+    const [currentMeds, setCurrentMeds] = useState([]);
     
     const [weight, setWeight] = useState('');
-    const [heightInches, setHeightInches] = useState('');
     const [heightFt, setHeightFt] = useState('');
 
-    const allAvailNurses = [];
+    const [allAvailNurses, setAllAvailNurses] = useState([]);
     const [newAssignedNurse, setNewAssignedNurse] = useState('');
 
-    const currentNursesAll = [];
+    const [currentNursesAll, setCurrentNursesAll] = useState([]);
     const [currentNurse, setCurrentNurse] = useState('');
 
-    function handleNewNurse(event){
-        setNewAssignedNurse(event.target.value === "" ? "" : event.target.value);
-    }
+    const [generalInfo, setGeneralInfo] = useState({});
 
-    function handleRemoveNurse(event){
-        setCurrentNurse(event.target.value === "" ? "" : event.target.value);
+    const {id} = useParams();
 
-    }
+    useEffect(() => {
+        async function fetchPatientData(){
+            const response = await fetch(`http://localhost:5000/updateprofileinfo/${id}`);
+            const jsonData = await response.json();
+            setAllAvailNurses(jsonData.allHospitalNurses);
+            setCurrentNursesAll(jsonData.currentPatientNurses);
+            setWeight(jsonData.generalInfo.weight_kg);
+            setHeightFt(jsonData.generalInfo.height_ft);
+            setCurrentHealthConcerns(jsonData.allConcerns);
+            setGeneralInfo(jsonData.generalInfo);
+            setCurrentMeds(jsonData.allPrescriptions);
+            setIsLoading(false);
+        }
+        fetchPatientData();
+    }, []);
 
     function handlePrescriptionChange(event){
         setPrescLength(event.target.value === "" ? "" : event.target.value);
+        console.log(event.target.value);
     }
 
     function handleDosageChange(event){
         setDosage(event.target.value === "" ? "" : event.target.value);
+        console.log(event.target.value);
     }
 
     function isWhitespace(str) {
         return !str.replace(/\s/g, '').length;
     }
 
-    function addPrescription(ev){
+    async function addPrescription(ev){
         ev.preventDefault();
-
         if (!isWhitespace(medName) && medName !== "" && prescLength !== "" && dosage !== ""){
-            console.log(medName, prescLength, dosage);
+            const response = await fetch(`http://localhost:5000/patient/add-prescription/${id}`, {
+                method: 'POST',
+                body: JSON.stringify({newPrescription: {medName, prescLength, dosage}}),
+                headers: {'Content-Type':'application/json'}
+            });
+
+            if (response.ok){
+                window.location.reload();
+            } else {
+                toast.error("Error adding prescription.");
+            }
         } else {
-            console.log("error");
+            toast.error("One or more fields missing");
         }
     }
 
-    function removeItemFromProfile(ev){
-        console.log(ev.target.textContent);
+    async function removePrescription(ev){
+        const prescToRemove = (ev.target.textContent).split(" | ")[0];
+
+        const response = await fetch(`http://localhost:5000/patient/remove-prescription/${id}`, {
+            method: 'POST',
+            body: JSON.stringify({prescToRemove}),
+            headers: {'Content-Type':'application/json'}
+        });
+
+        if (response.ok){
+            window.location.reload();
+        } else {
+            toast.error("Error removing prescription.");
+        }
     }
 
-    function updateWeightHeight(ev){
+    async function removeHealthConcern(ev){
+        const concernToRemove = ev.target.textContent;
+
+        const response = await fetch(`http://localhost:5000/patient/remove-health-concern/${id}`, {
+            method: 'POST',
+            body: JSON.stringify({concernToRemove}),
+            headers: {'Content-Type':'application/json'}
+        });
+
+        if (response.ok){
+            window.location.reload();
+        } else {
+            toast.error("Error removing health concern.");
+        }
+    }
+
+    async function updateWeightHeight(ev){
         ev.preventDefault();
 
         if (!isWhitespace(weight) && weight !== "" && !isNaN(weight)){
-            console.log(weight);
+            const response = await fetch(`http://localhost:5000/patient/update-weight/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify({newWeight: weight}),
+                headers: {'Content-Type':'application/json'}
+            });
+
+            if (response.ok){
+                window.location.reload();
+            } else {
+                toast.error("Error updating weight.");
+            }
+
         }
         
         if (!isWhitespace(heightFt) && heightFt !== "" && !isNaN(heightFt)){
-            console.log(heightFt);
+            const response = await fetch(`http://localhost:5000/patient/update-height/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify({newHeight: heightFt}),
+                headers: {'Content-Type':'application/json'}
+            });
+
+            if (response.ok){
+                window.location.reload();
+            } else {
+                toast.error("Error updating height.");
+            }
         } 
-        
-        if (!isWhitespace(heightInches) && heightInches !== "" && !isNaN(heightInches)){
-            console.log(heightInches);
-        }
     }
 
-    function handleAssignRemove(ev){
+    async function handleAssignRemove(ev){
         const choice = ev.target.textContent;
         if (choice === "Assign"){
-            console.log(choice);
+            console.log(newAssignedNurse);
+            const response = await fetch(`http://localhost:5000/patient/add-nurse/${id}`, {
+                method: 'POST',
+                body: JSON.stringify({newNurseSin: newAssignedNurse}),
+                headers: {'Content-Type':'application/json'}
+            });
+
+            if (response.ok){
+                window.location.reload();
+            } else {
+                toast.error("Error assigning nurse.");
+            }
         }
 
         if (choice === "Unassign"){
-            console.log(choice);
+            console.log(currentNurse);
+            const response = await fetch(`http://localhost:5000/patient/remove-nurse/${id}`, {
+                method: 'POST',
+                body: JSON.stringify({removeNurseSin: currentNurse}),
+                headers: {'Content-Type':'application/json'}
+            });
+
+            if (response.ok){
+                window.location.reload();
+            } else {
+                toast.error("Error removing nurse.");
+            }
         }
+    }
+
+    async function addHealthConcern(){
+        if (newHealthConcern === "" || isWhitespace(newHealthConcern) || currentHealthConcerns.some(item => item.health_issue.toLowerCase().replace(' ', '') === newHealthConcern.toLowerCase().replace(' ', ''))){
+            toast.error("Missing field or Health Issue Already Exists");
+        } else {
+            const response = await fetch(`http://localhost:5000/patient/add-health-concern/${id}`, {
+                method: 'POST',
+                body: JSON.stringify({newHealthIssue: newHealthConcern}),
+                headers: {'Content-Type':'application/json'}
+            });
+
+            if (response.ok){
+                window.location.reload();
+            } else {
+                toast.error("Error adding health concern");
+            }
+        }
+    }
+
+    if (isLoading){
+        return(<div className="main-report-container">Loading</div>)
     }
 
     return( 
         <div className="main-record-container">
-            <h1>Update Record for John Doe</h1>
+            <h1>Update Record for {generalInfo.name}</h1>
             <div className="sub-container-1">
                 <div className="container-div">
                     <h3>Add Health Concerns</h3>
@@ -101,12 +249,16 @@ export default function UpdateRecordPage(){
                         value={newHealthConcern}
                         onChange={(ev) => setNewHealthConcern(ev.target.value)}
                     />
-                    <button className="primary-btn">Add Health Concern</button>
+                    <button className="primary-btn" onClick={addHealthConcern}>Add Health Concern</button>
                 </div>
                 <div className="container-div">
                     <h3>Remove Resolved Health Concerns</h3>
                     <ul>
-                        <li onClick={removeItemFromProfile}>Health Issue #1</li>
+                        {
+                            currentHealthConcerns.map((iss, index) => {
+                                return(<li onClick={removeHealthConcern} key={index} value={iss.health_issue}>{iss.health_issue}</li>);
+                            })
+                        }
                     </ul>
                 </div>
             </div>
@@ -123,7 +275,11 @@ export default function UpdateRecordPage(){
                 <div className="container-div">
                     <h3>Remove Prescriptions</h3>
                     <ul>
-                        <li onClick={removeItemFromProfile}>Medication #1</li>
+                    {
+                            currentMeds.map((med, index) => {
+                                return(<li onClick={removePrescription} key={index} value={med.prescription}>{med.prescription} | {med.length_weeks} weeks | {med.dose_mg} mg</li>);
+                            })
+                        }
                     </ul>
                 </div>
             </div>
@@ -137,13 +293,13 @@ export default function UpdateRecordPage(){
                         onChange={(ev) => setMedName(ev.target.value)}
                     />
                     <Dropdown 
-                        dropdownTitle={"Duration"} 
+                        dropdownTitle={"Duration (weeks)"} 
                         selectedOption={prescLength}
                         onOptionChange={handlePrescriptionChange}
                         availableOptions={availableOptions}
                     />
                     <Dropdown 
-                        dropdownTitle={"Dosage"} 
+                        dropdownTitle={"Dosage (Mg)"} 
                         selectedOption={dosage}
                         onOptionChange={handleDosageChange}
                         availableOptions={dosageOptions}
@@ -153,39 +309,43 @@ export default function UpdateRecordPage(){
             </div>
             <div className="sub-container-1">
                 <div className="container-div">
-                    <h3>Update Weight and Height</h3>
+                    <h3 style={{marginBottom: "15px"}}>Update Weight and Height</h3>
+                    <label htmlFor="weight" >Weight (kg)</label>
                     <input 
-                        placeholder="Weight (lbs)"
+                        name="weight"
+                        placeholder="Weight (kg)"
                         value={weight}
                         onChange={(ev) => setWeight(ev.target.value)}
                     />
+                    <label htmlFor="height">Height (Ft)</label>
                     <input 
+                        name="height"
                         placeholder="Height (Ft)"
                         value={heightFt}
                         onChange={(ev) => setHeightFt(ev.target.value)}
                     />
-                    <input 
-                        placeholder="Height (Inches)"
-                        value={heightInches}
-                        onChange={(ev) => setHeightInches(ev.target.value)}
-                    />
-                    <button onClick={updateWeightHeight} style={{marginLeft: "15px"}} className="primary-btn">Update</button>
+                    <button onClick={updateWeightHeight} style={{marginLeft: "5px"}} className="primary-btn">Update</button>
                 </div>
                 <div style={{width: "50%", border: "2px solid #e2e2e2", padding: "10px"}}>
                     <h3>Assign and Unassign Nurse</h3>
                     <div className="options-container">
-                        <Dropdown 
-                            dropdownTitle={"Available Nurses"} 
-                            selectedOption={newAssignedNurse}
-                            onOptionChange={handleNewNurse}
-                            availableOptions={allAvailNurses}
-                        />
-                        <Dropdown 
-                            dropdownTitle={"Current Nurses"} 
-                            selectedOption={currentNurse}
-                            onOptionChange={handleRemoveNurse}
-                            availableOptions={currentNursesAll}
-                        />
+                        <select id="nurse-select" name="all-nurses" value={newAssignedNurse} onChange={(ev) => setNewAssignedNurse(ev.target.value)}>
+                            <option value="">Select New Nurse</option>
+                            {
+                                allAvailNurses.map((nurse, index) => {
+                                    return(<option key={index} value={nurse.nurse_sin}>{nurse.nurse_name}</option>);
+                                })
+                            }
+                        </select>
+
+                        <select id="nurse-select" name="all-nurses-current" value={currentNurse} onChange={(ev) => setCurrentNurse(ev.target.value)}>
+                            <option value="">Remove A Nurse</option>
+                            {
+                                currentNursesAll.map((nurse, index) => {
+                                    return(<option key={index} value={nurse.nurse_sin}>{nurse.name}</option>);
+                                })
+                            }
+                        </select>
                     </div>
                     <div className="options-container">
                         <button className="primary-btn" onClick={handleAssignRemove}>Assign</button>

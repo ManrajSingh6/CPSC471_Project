@@ -8,7 +8,7 @@ export default function PatientAppointmentCard(props){
     
     return (
         <div className="appointment-card-container">
-            <h3>Appointment with <strong>Dr. {props.doctor_with}</strong></h3>
+            <h3>Appointment with <strong>Dr. {props.name}</strong></h3>
             <div style={{marginTop: "10px"}}>
                 <p><strong>Date:</strong> {appointmentDate}</p>
                 <p><strong>Time:</strong> {appointmentTime}</p>
@@ -17,7 +17,7 @@ export default function PatientAppointmentCard(props){
                 <p><strong>Location:</strong> {props.hospital_name}</p>
                 <p><strong>Address:</strong> {appointmentAddress}</p>
             </div>
-            <p style={{marginTop: "10px"}}>This appointment is to check on the status of the following health issue(s): <strong>{props.health_issue}</strong></p>
+            <p style={{marginTop: "10px"}}>This appointment is to check on the status of the following health issue(s): <strong>{props.healthIssues.map((iss, index) => {return <span key={index} style={{marginLeft: "5px"}}>{iss.health_issue},</span>})}</strong></p>
         </div>
     );
 }

@@ -157,17 +157,28 @@ export async function getDoctorInfo(id){
 
 export async function getPatientAppointments(id){
     const [patientAppointmentInfo] = await pool.query(
-        `SELECT PS.name AS doctor_with, AP.appointment, H.*, HI.health_issue
-        FROM doctor AS D, patient AS P, doctor_attends_patient AS DA, person AS PS, appointments AS AP, hospital AS H, health_issues AS HI
-        WHERE (P.sin = ? 
-            AND P.sin = DA.patient_sin 
-            AND DA.doctor_sin = D.sin 
-            AND DA.doctor_sin = PS.sin
-            AND AP.patient_sin = P.sin
-            AND P.hospital_id = H.hospital_id
-            AND HI.patient_sin = P.sin)`, [id]
+        `SELECT A.appointment, P.name, H.*
+        FROM appointments AS A, doctor AS D, doctor_attends_patient AS DA, person AS P, hospital AS H
+        WHERE (A.patient_sin = ?
+            AND DA.doctor_sin = D.sin
+            AND DA.patient_sin = A.patient_sin
+            AND P.sin = D.sin
+            AND D.hospital_id = H.hospital_id)`, [id]
     );
-    return (patientAppointmentInfo);
+
+    const allPatientHealthIssues = await getAllPatientHealthIssues(id);
+    
+    return ({patientAppointmentInfo: patientAppointmentInfo, healthIssues: allPatientHealthIssues});
+}
+
+export async function getAllPatientHealthIssues(patientID){
+    const [allIssues] = await pool.query(
+        `SELECT HI.health_issue
+        FROM health_issues AS HI
+        WHERE (HI.patient_sin = ?);`, [patientID]
+    );
+    
+    return allIssues;
 }
 
 export async function getAllHospitalData(){
@@ -211,14 +222,13 @@ export async function getAllPatientsByDoctor(doctor_id){
 
 export async function getAllDoctorAppointments(doctor_id){
     const [allDoctorAppointments] = await pool.query(
-        `SELECT A.appointment, P.name, H.*, GROUP_CONCAT(HI.health_issue SEPARATOR '; ') AS patient_health_issues
-        FROM appointments AS A, doctor_attends_patient AS DA, person AS P, hospital AS H, patient AS PA, health_issues AS HI
-        WHERE (DA.doctor_sin = 123450987 
-            AND A.patient_sin = DA.patient_sin 
-            AND P.sin = DA.patient_sin
+        `SELECT DA.*, A.appointment, P.name, H.*
+        FROM doctor_attends_patient AS DA, appointments AS A, person AS P, hospital AS H, patient as PA 
+        WHERE (DA.doctor_sin = ?
+            AND A.patient_sin = DA.patient_sin
+            AND P.sin = A.patient_sin
             AND H.hospital_id = PA.hospital_id
-            AND PA.sin = DA.patient_sin
-            AND HI.patient_sin = DA.patient_sin)`, [doctor_id]
+            AND A.patient_sin = PA.sin)`, [doctor_id]
     );
     return allDoctorAppointments;
 }
@@ -246,7 +256,11 @@ export async function getAllMedicationsAtHospital(admin_id){
         `, [hospitalID[0].hospital_id]
     );
 
-    return (allMeds);
+    const [allRooms] = await pool.query(
+        `SELECT R.room_number FROM room AS R WHERE (R.hospital_id = ?)`, [hospitalID[0].hospital_id]
+    );
+
+    return ({allMeds, allRooms});
 }
 
 export async function getAllEquipmentAtHospital(admin_id){
@@ -302,3 +316,256 @@ export async function hospitalOptions(){
     );
     return hospitalOptions;
 }
+
+export async function addGuardianVisitor(guardianData){
+    const [alreadyExists] = await pool.query(
+        `SELECT * FROM guardian_visitor WHERE visitor_id = ?`, [guardianData.gSIN]
+    );
+
+    let alreadyExistsBool = false;
+    if (alreadyExists.length === 1){
+        alreadyExistsBool = true;
+    }
+
+    if (!alreadyExistsBool){
+        let creationError = false;
+        const guardianQuery = 'INSERT INTO guardian_visitor (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin) VALUES (?,?,?,?,?,?,?,?,?,?,?)';
+        const guardianValues = [guardianData.gSIN, guardianData.gPhoNumber, guardianData.gRel, guardianData.gName, guardianData.gHouseNum, guardianData.gAddress, guardianData.gZipCode, guardianData.gCity, guardianData.gProvince, guardianData.gCountry, guardianData.visiteeSin];
+
+        await pool.query(guardianQuery, guardianValues, (error, result) => {
+            if (error) {
+                creationError = true;
+            }
+        });
+
+        if (!creationError){
+            return "Added guardian/visitor";
+        } else {
+            return "Error occured";
+        }
+    } 
+    
+    else {
+        return ("Guardian/visitor already exists!");
+    } 
+}
+
+export async function patientHealthIssues(id){
+    const [allConcerns] = await pool.query(
+        `SELECT HI.health_issue
+        FROM health_issues AS HI
+        WHERE (HI.patient_sin = ?)`, [id]
+    );
+
+    return (allConcerns);
+}
+
+export async function patientPrescriptions(id){
+    const [allPrescriptions] = await pool.query(
+        `SELECT P.prescription, P.length_weeks, P.dose_mg 
+        FROM prescriptions AS P
+        WHERE (P.patient_sin = ?)`, [id]
+    );
+
+    return (allPrescriptions);
+}
+
+export async function patientWeightHeight(id){
+    const [weightHeight] = await pool.query(
+        `SELECT P.weight_kg, P.height_ft, PS.name, P.hospital_id
+        FROM patient AS P, person AS PS
+        WHERE (P.sin = ? AND P.sin = PS.sin)`, [id]
+    );
+
+    return weightHeight[0];
+}
+
+export async function allNursesByHospital(hospital_id){
+    const [allNurses] = await pool.query(
+        `
+        SELECT N.sin AS nurse_sin, P.name AS nurse_name 
+        FROM nurse AS N, person AS P
+        WHERE (N.hospital_id = ? AND P.sin = N.sin)`, [hospital_id]
+    );
+    
+    return allNurses;
+}
+
+export async function getNursesByPatient(patient_id){
+    const [patientNurses] = await pool.query(
+        `
+        SELECT NA.*, P.name
+        FROM nurse_assists_patient AS NA, person AS P
+        WHERE (NA.patient_sin = ? AND P.sin = NA.nurse_sin)`, [patient_id]
+    );
+    
+    return patientNurses;
+}
+
+export async function addPatientHealthConcern(patient_id, newHealthIssue){
+    
+    const guardianQuery = 'INSERT INTO health_issues (patient_sin, health_issue) VALUES (?, ?)';
+    const guardianValues = [patient_id, newHealthIssue];
+
+    await pool.query(guardianQuery, guardianValues, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+
+    return (true);
+}
+
+export async function updatePatientWeight(patient_id, newWeight){
+    const updateQuery = 'UPDATE patient SET weight_kg = ? WHERE sin = ?';
+    const updateValues = [newWeight, patient_id];
+
+    await pool.query(updateQuery, updateValues, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+
+    return (true);
+}
+
+export async function updatePatientHeight(patient_id, newHeight){
+    const updateQuery = 'UPDATE patient SET height_ft = ? WHERE sin = ?';
+    const updateValues = [newHeight, patient_id];
+
+    await pool.query(updateQuery, updateValues, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+
+    return (true);
+}
+
+export async function addNewPrescription(patient_id, prescData){
+    const insertQuery = 'INSERT INTO prescriptions (patient_sin, prescription, length_weeks, dose_mg) VALUES (?, ?, ?, ?)';
+    const insertValues = [patient_id, prescData.medName, prescData.prescLength, prescData.dosage];
+
+    await pool.query(insertQuery, insertValues, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+
+    return true;
+}
+
+export async function removePrescription(patient_id, prescription){
+    const deleteQuery = 'DELETE FROM prescriptions WHERE (patient_sin = ? AND prescription = ?)';
+    const deleteValues = [patient_id, prescription];
+    await pool.query(deleteQuery, deleteValues, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+    return true;
+}
+
+export async function removeHealthConcern(patient_id, concern){
+    const deleteQuery = 'DELETE FROM health_issues WHERE (patient_sin = ? AND health_issue = ?)';
+    const deleteValues = [patient_id, concern];
+    await pool.query(deleteQuery, deleteValues, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+    return true;
+}
+
+export async function addNurseToPatient(patient_id, newNurseSin){
+
+    const [nurseExists] = await pool.query(`SELECT * FROM nurse_assists_patient WHERE (nurse_sin = ? AND patient_sin = ?)`, [newNurseSin, patient_id]);
+    if (nurseExists.length !== 1){
+        const insertQuery = 'INSERT INTO nurse_assists_patient (nurse_sin, patient_sin) VALUES (?, ?)';
+        const insertValues = [newNurseSin, patient_id];
+
+        await pool.query(insertQuery, insertValues, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+        return true;
+    } else {
+        return false;
+    }
+    
+}
+
+export async function removeNurseFromPatient(patient_id, removeNurseSin){
+    const [nurseExists] = await pool.query(`SELECT * FROM nurse_assists_patient WHERE (nurse_sin = ? AND patient_sin = ?)`, [removeNurseSin, patient_id]);
+    if (nurseExists.length === 1){
+        const deleteQuery = 'DELETE FROM nurse_assists_patient WHERE (nurse_sin = ? AND patient_sin = ?)';
+        const deleteValues = [removeNurseSin, patient_id];
+
+        await pool.query(deleteQuery, deleteValues, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export async function addMedicationToHospital(admin_id, med){
+    const [hospitalID] = await pool.query(
+        `SELECT A.hospital_id
+        FROM admin AS A
+        WHERE A.sin = ?`, [admin_id]
+    );
+
+    const hospital_id = hospitalID[0].hospital_id;
+
+    const [itemExists] = await pool.query(
+        `
+        SELECT S.item_id, S.name, S.price
+        FROM supplies AS S
+        WHERE (S.item_id = ? AND S.hospital_id = ?);
+        `, [med.medID, hospital_id]
+    );
+
+    if (itemExists.length === 1){
+        return false;
+    } else {
+        const insertQuery = 'INSERT INTO supplies (item_id, name, price, category, quantity, hospital_id, room_number) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        const insertValues = [med.medID, med.medName, med.medPrice, med.medCategory, med.medQuantity, hospital_id, med.medRoomChoice];
+
+        await pool.query(insertQuery, insertValues, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+
+        const secondInsertQuery = 'INSERT INTO medication (item_id, din_number, expiry_date) VALUES (?, ?, ?)';
+        const secondInsertValues = [med.medID, med.medDIN, med.medExpiryDate];
+
+        await pool.query(secondInsertQuery, secondInsertValues, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+
+        return (true);
+    }
+}
+
+export async function addQuantity(hospitalID, itemID, newQuantity){
+    const updateQuery = 'UPDATE supplies SET quantity = ? WHERE (item_id = ? AND hospital_id = ?)';
+    const updateValues = [newQuantity, itemID, hospitalID];
+
+    await pool.query(updateQuery, updateValues, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+
+    return true;
+}
+
+

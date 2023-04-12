@@ -2,6 +2,9 @@ import { useParams } from "react-router-dom";
 import "./ProfilePage.css";
 import { useEffect, useState } from "react";
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function PatientProfilePage(){
 
     const [gName, setGName] = useState('');
@@ -13,6 +16,7 @@ export default function PatientProfilePage(){
     const [gProvince, setGProvince] = useState('');
     const [gCountry, setGCountry] = useState('');
     const [gZipCode, setGZipCode] = useState('');
+    const [gSIN, setGSIN] = useState('');
 
     const {id} = useParams();
     const [userData, setUserData] = useState('');
@@ -27,8 +31,28 @@ export default function PatientProfilePage(){
         });
     }, []);
 
-    function addVisitor(ev){
+    async function addVisitor(ev){
         ev.preventDefault();
+        
+        const formData = {
+            gName, gSIN, gRel, gPhoNumber, gHouseNum, gAddress, gCity, gProvince, gCountry, gZipCode, visiteeSin: id
+        };
+
+        const response = await fetch('http://localhost:5000/patient-add-guardian', {
+            method: 'POST',
+            body: JSON.stringify({formData}),
+            headers: {'Content-Type':'application/json'}
+        });
+
+        if (response.ok){
+            response.json().then(res => {
+                toast.success(res);
+            });
+        } else {
+            response.json().then(res => {
+                toast.error(res);
+            });
+        }
     }
 
     return(
@@ -42,10 +66,10 @@ export default function PatientProfilePage(){
                     <h3>Email</h3>
                     <p>{userData.email}</p>
                 </div>
-                {/* <div>
+                <div>
                     <h3>Phone Number</h3>
-                    <p>123-456-7899</p>
-                </div> */}
+                    <p>{userData.phone_number}</p>
+                </div>
             </div>
 
             <div className="guard-visitor-form">
@@ -55,6 +79,7 @@ export default function PatientProfilePage(){
                         <input required type="text" placeholder="Name" value={gName} onChange={(ev) => setGName(ev.target.value)}/>
                         <input required type="text" placeholder="Relationship" value={gRel} onChange={(ev) => setGRel(ev.target.value)}/>
                         <input required type="text" placeholder="Contact Number" value={gPhoNumber} onChange={(ev) => setGPhoNumber(ev.target.value)}/>
+                        
                     </div>
                     <div>
                         <input required type="text" placeholder="House #" value={gHouseNum} onChange={(ev) => setGHouseNum(ev.target.value)}/>
@@ -65,6 +90,9 @@ export default function PatientProfilePage(){
                         <input required type="text" placeholder="Province" value={gProvince} onChange={(ev) => setGProvince(ev.target.value)}/>
                         <input required type="text" placeholder="Country" value={gCountry} onChange={(ev) => setGCountry(ev.target.value)}/>
                         <input required type="text" placeholder="ZIP Code" value={gZipCode} onChange={(ev) => setGZipCode(ev.target.value)}/>
+                    </div>
+                    <div>
+                        <input required type="number" placeholder="SIN Number" value={gSIN} onChange={(ev) => setGSIN(ev.target.value)}/>
                     </div>
                     <button className="primary-btn" style={{marginTop: "25px", marginBottom: "25px", alignSelf: "center"}}>Add</button>
                 </form>

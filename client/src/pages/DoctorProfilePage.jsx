@@ -13,7 +13,6 @@ export default function DoctorProfilePage(){
         }).then(response => {
             response.json().then(resData => {
                 setDoctorData(resData.doctorInfo);
-                console.log(resData.doctorInfo);
                 setDoctorPatients(resData.patientsAttendedTo);
             });
         });

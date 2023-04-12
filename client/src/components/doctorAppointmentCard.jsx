@@ -17,7 +17,7 @@ export default function DoctorAppointmentCard(props){
                 <p><strong>Location:</strong> {props.hospital_name}</p>
                 <p><strong>Address:</strong> {appointmentAddress}</p>
             </div>
-            <p style={{marginTop: "10px"}}>Discuss with the patient about their issues with <strong>{props.patient_health_issues.replaceAll(";", ", ")}.</strong></p>
+            {/* <p style={{marginTop: "10px"}}>Discuss with the patient about their issues with <strong>{props.patient_health_issues.replaceAll(";", ", ")}.</strong></p> */}
         </div>
     );
 }

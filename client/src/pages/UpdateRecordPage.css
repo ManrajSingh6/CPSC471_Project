@@ -92,3 +92,14 @@
         flex-direction: column;
     }
 }
+
+@media only screen and (max-width: 560px){
+    .sub-container-1{
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .sub-container-1 .container-div{
+        width: 100%;
+    }
+}

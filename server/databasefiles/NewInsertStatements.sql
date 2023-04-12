@@ -102,57 +102,6 @@
 -- INSERT INTO ROOM (hospital_id, room_number, room_type, size_sqft, occupied, dept_no) VALUES (5, 509, 'operating room', 400, 1, 24);
 -- INSERT INTO ROOM (hospital_id, room_number, room_type, size_sqft, occupied, dept_no) VALUES (5, 510, 'private room', 150, 0, 25);
 
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (1,  'item1', 10.99,  'category1', 100, 1, 101);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (2,  'item2', 9.99,  'category1', 50, 1, 102);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (3,  'item3', 15.99,  'category2', 75, 1, 103);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (4,  'item4', 12.5,  'category2', 30, 1, 104);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (5,  'item5', 8.99,  'category1', 20, 1, 105);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (6,  'item6', 11.99,  'category3', 60, 2,  201);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (7,  'item7', 13.99,  'category3', 45, 2,  202);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (8,  'item8', 16.99,  'category2', 90, 2,  203);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (9,  'item9', 20.5,  'category1', 25, 2,  204);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (10,  'item10', 18.75,  'category2', 70, 2,  205);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (11,  'item11', 7.5,  'category1', 40, 3,  301);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (12,  'item12', 14.99,  'category1', 55, 3,  302);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (13,  'item13', 9.5,  'category3', 80, 3,  303);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (14,  'item14', 23.99,  'category2', 15, 3,  304);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (15,  'item15', 17.99,  'category3', 65, 3,  305);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (16,  'item16', 12.5,  'category1', 35, 4,  401);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (17,  'item17', 19.99,  'category2', 25, 4,  402);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (18,  'item18', 8.99,  'category3', 95, 4,  403);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (19,  'item19', 14.5,  'category1', 80, 4,  404);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (20,  'item20', 10.75,  'category2', 50, 4,  405);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (21,  'item21', 11.5,  'category1', 60, 5,  501);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (22,  'item22', 7.99,  'category2', 70, 5,  502);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (23,  'item23', 18.99,  'category3', 40, 5,  503);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (24,  'item24', 22.5,  'category2', 10, 5,  504);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (25,  'item25', 9.99,  'category1', 30, 5,  505);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (26,  'item26', 13.5,  'category1', 85, 1,  106);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (27,  'item27', 15.99,  'category2', 60, 1,  107);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (28,  'item28', 17.5,  'category1', 50, 1,  108);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (29,  'item29', 10.99,  'category3', 90, 1,  109);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (30,  'item30', 12.75,  'category2', 40, 1,  110);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (31,  'item31', 9.99,  'category1', 70, 2,  206);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (32,  'item32', 14.99,  'category2', 55, 2,  207);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (33,  'item33', 18.5,  'category1', 30, 2,  208);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (34,  'item34', 7.5,  'category3', 100, 2,  209);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (35,  'item35', 21.99,  'category2', 20, 2,  210);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (36,  'item36', 16.5,  'category1', 65, 3,  306);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (37,  'item37', 8.99,  'category3', 75, 3,  307);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (38,  'item38', 12.99,  'category1', 50, 3,  308);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (39,  'item39', 19.99,  'category2', 25, 3,  309);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (40,  'item40', 15.5,  'category3', 45, 3,  310);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (41,  'item41', 11.99,  'category1', 55, 4,  406);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (42,  'item42', 14.5,  'category2', 35, 4,  407);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (43,  'item43', 9.75,  'category1', 90, 4,  408);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (44,  'item44', 16.99,  'category3', 30, 4,  409);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (45,  'item45', 20.5,  'category2', 15, 4,  410);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (46,  'item46', 22.99,  'category1', 25, 5,  506);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (47,  'item47', 17.99,  'category3', 55, 5,  507);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (48,  'item48', 11.5,  'category1', 70, 5,  508);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (49,  'item49', 8.99,  'category2', 80, 5,  509);
-INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (50,  'item50', 12.75,  'category3', 50, 5,  510);
-
 -- INSERT INTO ACCOUNT_INFORMATION (sin,  email,  username,  password) VALUES (111111111,  '111111111@example.com',  '111111111',  'p@$$w0rd');
 -- INSERT INTO ACCOUNT_INFORMATION (sin,  email,  username,  password) VALUES (222222222,  '222222222_2@example.com',  '222222222',  'password123');
 -- INSERT INTO ACCOUNT_INFORMATION (sin,  email,  username,  password) VALUES (333333333,  '333333333@example.com',  '333333333',  'iloveyou');
@@ -584,63 +533,6 @@ INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id
 -- INSERT INTO PATIENT_ORDERS_MEDICATION (patient_sin, item_id) VALUES (123450987, 29);
 -- INSERT INTO PATIENT_ORDERS_MEDICATION (patient_sin, item_id) VALUES (123450987, 32);
 
-
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (1, 10253, 'Acme Inc.', 'Warranty A', DATE '2022-01-15', 36);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (2, 89762, 'Widgets Co.', 'Warranty B', DATE '2021-09-10', 24);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (3, 30579, 'Gadget Corp.', 'Warranty C', DATE '2023-06-01', 12);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (4, 41689, 'Tech Industries', 'Warranty D', DATE '2022-12-25', 18);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (5, 78341, 'Innovate Solutions', 'Warranty E', DATE '2024-03-02', 48);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (6, 52468, 'Tech Industries', 'Warranty F', DATE '2021-05-20', 6);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (7, 91732, 'Widgets Co.', 'Warranty G', DATE '2022-09-15', 36);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (8, 34897, 'Acme Inc.', 'Warranty H', DATE '2023-01-01', 24);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (9, 68549, 'Gadget Corp.', 'Warranty I', DATE '2024-08-10', 12);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (10, 23658, 'Innovate Solutions', 'Warranty J', DATE '2023-11-30', 18);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (11, 12468, 'Tech Industries', 'Warranty K', DATE '2021-08-01', 24);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (12, 75894, 'Acme Inc.', 'Warranty L', DATE '2022-04-05', 36);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (13, 35986, 'Widgets Co.', 'Warranty M', DATE '2023-02-20', 48);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (14, 69320, 'Innovate Solutions', 'Warranty N', DATE '2021-12-15', 6);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (15, 58237, 'Gadget Corp.', 'Warranty O', DATE '2022-06-30', 24);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (16, 24178, 'Tech Industries', 'Warranty P', DATE '2024-07-01', 12);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (17, 97841, 'Innovate Solutions', 'Warranty Q', DATE '2022-05-12', 18);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (18, 20546, 'Widgets Co.', 'Warranty R', DATE '2023-03-25', 24);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (19, 84623, 'Gadget Corp.', 'Warranty S', DATE '2024-10-01', 36);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (20, 17359, 'Acme Inc.', 'Warranty T', DATE '2022-08-15', 48);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (21, 60492, 'Widgets Co.', 'Warranty U', DATE '2021-10-20', 6);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (22, 95287, 'Innovate Solutions', 'Warranty V', DATE '2022-11-05', 18);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (23, 46238, 'Tech Industries', 'Warranty W', DATE '2023-04-30', 24);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (24, 71983, 'Acme Inc.', 'Warranty X', DATE '2024-02-01', 36);
-INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (25, 83597, 'Gadget Corp.', 'Warranty Y', DATE '2021-07-10', 12);
-
-
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (26, 12345678, DATE '2024-08-01');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (27, 87654321, DATE '2023-10-15');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (28, 98765432, DATE '2023-05-31');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (29, 54321678, DATE '2024-09-22');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (30, 87654321, DATE '2023-06-14');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (31, 34567812, DATE '2023-12-05');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (32, 87654321, DATE '2023-07-19');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (33, 98765432, DATE '2024-03-12');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (34, 12345678, DATE '2024-06-30');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (35, 54321678, DATE '2024-07-11');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (36, 34567812, DATE '2024-02-25');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (37, 87654321, DATE '2023-11-01');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (38, 98765432, DATE '2024-01-22');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (39, 34567812, DATE '2024-10-08');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (40, 12345678, DATE '2024-05-15');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (41, 54321678, DATE '2023-09-18');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (42, 98765432, DATE '2024-02-10');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (43, 34567812, DATE '2024-08-29');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (44, 87654321, DATE '2023-06-25');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (45, 12345678, DATE '2023-12-19');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (46, 54321678, DATE '2024-03-07');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (47, 34567812, DATE '2023-11-26');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (48, 98765432, DATE '2024-09-13');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (49, 87654321, DATE '2023-08-08');
-INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (50, 12345678, DATE '2024-04-23');
-
-
-
-
 -- DOCTORS
 -- INSERT INTO PERSON (sin, name, date_of_birth, house_number, street_name, postal_code, city, province, country) 
 -- VALUES (123456789, 'Sarah Johnson', '1990-05-12', 123, 'Main St', 'A1B2C3', 'Toronto', 'Ontario', 'Canada');
@@ -706,6 +598,8 @@ INSERT INTO PERSON (sin, name, date_of_birth, house_number, street_name, postal_
 VALUES (852963741, 'David Garcia', '1985-10-05', 369, 'Yonge Street', 'M5B 1W8', 'Toronto', 'Ontario', 'Canada', '4165550187');
 INSERT INTO PERSON (sin, name, date_of_birth, house_number, street_name, postal_code, city, province, country, phone_number)
 VALUES (741852963, 'Sophie Evans', '1997-01-07', 963, 'Queen Street', 'M5C 2M6', 'Toronto', 'Ontario', 'Canada', '4165550165');
+INSERT INTO PERSON (sin, name, date_of_birth, house_number, street_name, postal_code, city, province, country, phone_number)
+VALUES (981389532, 'Sajan Hayer', '1998-02-05', 101, 'Dalmation Street', 'M7C 2M6', 'Toronto', 'Ontario', 'Canada', '9083267786');
 
 
 -- PATIENTS
@@ -856,6 +750,119 @@ VALUES
 	(5, 509, 'Ophthalmology', 200, 0, 505),
 	(5, 510, 'Ophthalmology', 200, 1, 505);
     
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (1,  'item1', 10.99,  'category1', 100, 1, 101);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (2,  'item2', 9.99,  'category1', 50, 1, 102);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (3,  'item3', 15.99,  'category2', 75, 1, 103);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (4,  'item4', 12.5,  'category2', 30, 1, 104);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (5,  'item5', 8.99,  'category1', 20, 1, 105);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (6,  'item6', 11.99,  'category3', 60, 2,  201);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (7,  'item7', 13.99,  'category3', 45, 2,  202);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (8,  'item8', 16.99,  'category2', 90, 2,  203);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (9,  'item9', 20.5,  'category1', 25, 2,  204);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (10,  'item10', 18.75,  'category2', 70, 2,  205);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (11,  'item11', 7.5,  'category1', 40, 3,  301);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (12,  'item12', 14.99,  'category1', 55, 3,  302);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (13,  'item13', 9.5,  'category3', 80, 3,  303);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (14,  'item14', 23.99,  'category2', 15, 3,  304);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (15,  'item15', 17.99,  'category3', 65, 3,  305);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (16,  'item16', 12.5,  'category1', 35, 4,  401);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (17,  'item17', 19.99,  'category2', 25, 4,  402);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (18,  'item18', 8.99,  'category3', 95, 4,  403);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (19,  'item19', 14.5,  'category1', 80, 4,  404);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (20,  'item20', 10.75,  'category2', 50, 4,  405);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (21,  'item21', 11.5,  'category1', 60, 5,  501);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (22,  'item22', 7.99,  'category2', 70, 5,  502);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (23,  'item23', 18.99,  'category3', 40, 5,  503);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (24,  'item24', 22.5,  'category2', 10, 5,  504);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (25,  'item25', 9.99,  'category1', 30, 5,  505);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (26,  'item26', 13.5,  'category1', 85, 1,  106);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (27,  'item27', 15.99,  'category2', 60, 1,  107);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (28,  'item28', 17.5,  'category1', 50, 1,  108);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (29,  'item29', 10.99,  'category3', 90, 1,  109);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (30,  'item30', 12.75,  'category2', 40, 1,  110);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (31,  'item31', 9.99,  'category1', 70, 2,  206);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (32,  'item32', 14.99,  'category2', 55, 2,  207);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (33,  'item33', 18.5,  'category1', 30, 2,  208);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (34,  'item34', 7.5,  'category3', 100, 2,  209);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (35,  'item35', 21.99,  'category2', 20, 2,  210);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (36,  'item36', 16.5,  'category1', 65, 3,  306);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (37,  'item37', 8.99,  'category3', 75, 3,  307);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (38,  'item38', 12.99,  'category1', 50, 3,  308);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (39,  'item39', 19.99,  'category2', 25, 3,  309);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (40,  'item40', 15.5,  'category3', 45, 3,  310);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (41,  'item41', 11.99,  'category1', 55, 4,  406);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (42,  'item42', 14.5,  'category2', 35, 4,  407);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (43,  'item43', 9.75,  'category1', 90, 4,  408);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (44,  'item44', 16.99,  'category3', 30, 4,  409);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (45,  'item45', 20.5,  'category2', 15, 4,  410);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (46,  'item46', 22.99,  'category1', 25, 5,  506);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (47,  'item47', 17.99,  'category3', 55, 5,  507);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (48,  'item48', 11.5,  'category1', 70, 5,  508);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (49,  'item49', 8.99,  'category2', 80, 5,  509);
+INSERT INTO SUPPLIES (item_id,  name,  price,  category,  quantity,  hospital_id,  room_number) VALUES (50,  'item50', 12.75,  'category3', 50, 5,  510);
+
+-- ACCOUNT INFORMATION
+
+-- James Wilson
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (369258147, 'james.wilson@gmail.com', 'jwilson82', 'pass123');
+-- Melissa Clark
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (147258369, 'melissa.clark@yahoo.com', 'mclark78', 'pass456');
+-- Ryan Lee
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (258369147, 'ryan.lee@hotmail.com', 'rlee89', 'pass789');
+-- Laura Robinson
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (963852741, 'laura.robinson@gmail.com', 'lrobinson95', 'pass012');
+-- Sarah Taylor
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (369147258, 'sarah.taylor@yahoo.com', 'staylor86', 'pass345');
+-- Ava Johnson
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (879654321, 'ava.johnson@hotmail.com', 'ajohnson83', 'pass678');
+-- Sophia Nguyen
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (867530901, 'sophia.nguyen@gmail.com', 'snguyen94', 'pass901');
+-- Grace Park
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (369258741, 'grace.park@yahoo.com', 'gpark89', 'pass234');
+-- Jason Lee
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (951753684, 'jason.lee@hotmail.com', 'jlee97', 'pass567');
+-- Liam Brown
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (568974231, 'liam.brown@gmail.com', 'lbrown80', 'pass890');
+
+-- Doctors ACCOUNT INFO
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (123456789, 'sarahjohnson@example.com', 'sarahj', 'sarahpass');
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (987654321, 'michaelbrown@example.com', 'michaelb', 'michaelpass');
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (246810121, 'emilylee@example.com', 'emilylee', 'emilypass');
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (369121518, 'davidkim@example.com', 'davidk', 'davidpass');
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (951753852, 'amychen@example.com', 'amychen', 'amypass');
+
+-- Admin ACCOUNT INFO
+-- Daniel Park
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (482716935, 'daniel.park@example.com', 'dpark', 'mypassword123');
+-- Jessica Lee
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (456789123, 'jessica.lee@example.com', 'jlee', 'ilovecats456');
+-- John Smith
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (764382915, 'john.smith@example.com', 'jsmith', 'password1234');
+-- Michelle Nguyen
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (428736951, 'michelle.nguyen@example.com', 'mnguyen', '12345678');
+-- Christopher Lee
+INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
+VALUES (428571639, 'christopher.lee@example.com', 'clee', 'secret123');
+    
 -- DOCTORS    
 -- Sarah Johnson to Hospital 1
 INSERT INTO DOCTOR (sin, qualification, specialization, dept_no, hospital_id)
@@ -872,30 +879,6 @@ VALUES (369121518, 'MBBS', 'Neurology', 401, 4);
 -- Amy Chen to Hospital 5
 INSERT INTO DOCTOR (sin, qualification, specialization, dept_no, hospital_id)
 VALUES (951753852, 'MD', 'Dermatology', 501, 5);
-
--- ADMINS
-INSERT INTO ADMIN (sin, department, position, hospital_id)
-VALUES (482716935, 'Administration', 'Director', 1);
-INSERT INTO ADMIN (sin, department, position, hospital_id)
-VALUES (456789123, 'Finance', 'Manager', 2);
-INSERT INTO ADMIN (sin, department, position, hospital_id)
-VALUES (764382915, 'Human Resources', 'Coordinator', 3);
-INSERT INTO ADMIN (sin, department, position, hospital_id)
-VALUES (428736951, 'Information Technology', 'Specialist', 4);
-INSERT INTO ADMIN (sin, department, position, hospital_id)
-VALUES (428571639, 'Marketing', 'Associate', 5);
-
--- NURSES
-INSERT INTO NURSE (sin, type, position_type, hospital_id)
-VALUES (123456784, 'Registered Nurse', 'Full-time', 1);
-INSERT INTO NURSE (sin, type, position_type, hospital_id)
-VALUES (789456123, 'Licensed Practical Nurse', 'Part-time', 2);
-INSERT INTO NURSE (sin, type, position_type, hospital_id)
-VALUES (456123789, 'Registered Nurse', 'Part-time', 3);
-INSERT INTO NURSE (sin, type, position_type, hospital_id)
-VALUES (852963741, 'Licensed Practical Nurse', 'Full-time', 4);
-INSERT INTO NURSE (sin, type, position_type, hospital_id)
-VALUES (741852963, 'Registered Nurse', 'Full-time', 5);
 
 -- PATIENTS (2 per hospital)
 INSERT INTO PATIENT (sin, weight_kg, height_ft, sex, hospital_id, room_no)
@@ -921,39 +904,39 @@ VALUES (369121518, 867530901), (369121518, 369258741);
 INSERT INTO DOCTOR_ATTENDS_PATIENT (doctor_sin, patient_sin)
 VALUES (951753852, 951753684), (951753852, 568974231);
 
--- NURSE ASSISTS PATIENT
-INSERT INTO NURSE_ASSISTS_PATIENT (nurse_sin, patient_sin)
-VALUES (123456784, 369258147), (123456784, 147258369);
-INSERT INTO NURSE_ASSISTS_PATIENT (nurse_sin, patient_sin)
-VALUES (987654321, 258369147), (987654321, 963852741);
-INSERT INTO NURSE_ASSISTS_PATIENT (nurse_sin, patient_sin)
-VALUES (456123789, 369147258), (456123789, 879654321);
-INSERT INTO NURSE_ASSISTS_PATIENT (nurse_sin, patient_sin)
-VALUES (852963741, 867530901), (852963741, 369258741);
-INSERT INTO NURSE_ASSISTS_PATIENT (nurse_sin, patient_sin)
-VALUES (741852963, 951753684), (741852963, 568974231);
+-- MEDICAL RECORD
+INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (369258147, 'Sarah Johnson', 'Emma Thompson', 'John Smith');
+INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (147258369, 'Sarah Johnson', 'Emma Thompson', 'Jane Doe');
+INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (258369147, 'Michael Brown', 'Andrew Johnson', 'James Smith');
+INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (963852741, 'Michael Brown', 'Andrew Johnson', 'Emily Doe');
+INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (369147258, 'Emily Lee', 'Maggie Johnson', 'Robert Brown');
+INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (879654321, 'Emily Lee', 'Maggie Johnson', 'Alice Lee');
+INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (867530901, 'David Kim', 'David Garcia', 'Michael Johnson');
+INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (369258741, 'David Kim', 'David Garcia', 'Jessica Wong');
+INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (951753684, 'Amy Chen', 'Sophie Evans', 'Mary Johnson');
+INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (568974231, 'Amy Chen', 'Sophie Evans', 'David Lee');
 
--- GUARDIAN_VISITOR
-INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
-VALUES (1, '123-456-7890', 'Father', 'John Smith', 123, 'Main St', 'A1B 2C3', 'Toronto', 'Ontario', 'Canada', 369258147);
-INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
-VALUES (2, '234-567-8901', 'Mother', 'Jane Doe', 456, 'Maple Ave', 'X1Y 2Z3', 'Vancouver', 'British Columbia', 'Canada', 147258369);
-INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
-VALUES (3, '345-678-9012', 'Brother', 'James Smith', 789, 'Elm St', 'H3H 2M2', 'Montreal', 'Quebec', 'Canada', 258369147);
-INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
-VALUES (4, '456-789-0123', 'Sister', 'Emily Doe', 987, 'Cedar Rd', 'K1K 1K1', 'Ottawa', 'Ontario', 'Canada', 963852741);
-INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
-VALUES (5, '567-890-1234', 'Grandfather', 'Robert Brown', 654, 'Oak St', 'M5T 1W1', 'Toronto', 'Ontario', 'Canada', 369147258);
-INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
-VALUES (6, '678-901-2345', 'Grandmother', 'Alice Lee', 321, 'Birch Ave', 'V3N 3N3', 'Burnaby', 'British Columbia', 'Canada', 879654321);
-INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
-VALUES (7, '789-012-3456', 'Uncle', 'Michael Johnson', 987, 'Spruce St', 'S4P 3Y2', 'Regina', 'Saskatchewan', 'Canada', 867530901);
-INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
-VALUES (8, '890-123-4567', 'Aunt', 'Jessica Wong', 654, 'Cherry Blvd', 'T2N 1N4', 'Calgary', 'Alberta', 'Canada', 369258741);
-INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
-VALUES (2, '901-234-5678', 'Mother', 'Mary Johnson', 456, 'Queen St', 'M4S 1Y5', 'Toronto', 'Ontario', 'Canada', 951753684);
-INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
-VALUES (3, '012-345-6789', 'Brother', 'David Lee', 789, 'King St', 'H1A 1B1', 'Montreal', 'Quebec', 'Canada', 568974231);
+-- HEALTH ISSUES
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (369258147, 'High Blood Pressure');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (369258147, 'Asthma');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (147258369, 'Migraine');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (147258369, 'Diabetes');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (258369147, 'Anxiety');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (258369147, 'Depression');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (963852741, 'Arthritis');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (963852741, 'Back Pain');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (369147258, 'Cancer');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (369147258, 'Allergies');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (879654321, 'Heart Disease');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (879654321, 'Obesity');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (867530901, 'Kidney Disease');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (867530901, 'Thyroid Problems');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (369258741, 'Chronic Pain');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (369258741, 'Vision Problems');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (951753684, 'Eczema');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (951753684, 'Hypertension');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (568974231, 'Alzheimer\'s');
+INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (568974231, 'Fibromyalgia');
 
 -- PRESCRIPTIONS
 INSERT INTO PRESCRIPTIONS (patient_sin, prescription, length_weeks, dose_mg) 
@@ -1018,101 +1001,131 @@ VALUES (369258147, '2023-04-12 09:00:00'),
        (568974231, '2023-04-18 09:00:00'),
        (568974231, '2023-04-18 10:30:00');
        
--- HEALTH ISSUES
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (369258147, 'High Blood Pressure');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (369258147, 'Asthma');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (147258369, 'Migraine');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (147258369, 'Diabetes');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (258369147, 'Anxiety');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (258369147, 'Depression');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (963852741, 'Arthritis');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (963852741, 'Back Pain');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (369147258, 'Cancer');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (369147258, 'Allergies');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (879654321, 'Heart Disease');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (879654321, 'Obesity');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (867530901, 'Kidney Disease');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (867530901, 'Thyroid Problems');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (369258741, 'Chronic Pain');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (369258741, 'Vision Problems');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (951753684, 'Eczema');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (951753684, 'Hypertension');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (568974231, 'Alzheimer\'s');
-INSERT INTO HEALTH_ISSUES (patient_sin, health_issue) VALUES (568974231, 'Fibromyalgia');
+-- GUARDIAN_VISITOR
+INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
+VALUES (1, '123-456-7890', 'Father', 'John Smith', 123, 'Main St', 'A1B 2C3', 'Toronto', 'Ontario', 'Canada', 369258147);
+INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
+VALUES (2, '234-567-8901', 'Mother', 'Jane Doe', 456, 'Maple Ave', 'X1Y 2Z3', 'Vancouver', 'British Columbia', 'Canada', 147258369);
+INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
+VALUES (3, '345-678-9012', 'Brother', 'James Smith', 789, 'Elm St', 'H3H 2M2', 'Montreal', 'Quebec', 'Canada', 258369147);
+INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
+VALUES (4, '456-789-0123', 'Sister', 'Emily Doe', 987, 'Cedar Rd', 'K1K 1K1', 'Ottawa', 'Ontario', 'Canada', 963852741);
+INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
+VALUES (5, '567-890-1234', 'Grandfather', 'Robert Brown', 654, 'Oak St', 'M5T 1W1', 'Toronto', 'Ontario', 'Canada', 369147258);
+INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
+VALUES (6, '678-901-2345', 'Grandmother', 'Alice Lee', 321, 'Birch Ave', 'V3N 3N3', 'Burnaby', 'British Columbia', 'Canada', 879654321);
+INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
+VALUES (7, '789-012-3456', 'Uncle', 'Michael Johnson', 987, 'Spruce St', 'S4P 3Y2', 'Regina', 'Saskatchewan', 'Canada', 867530901);
+INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
+VALUES (8, '890-123-4567', 'Aunt', 'Jessica Wong', 654, 'Cherry Blvd', 'T2N 1N4', 'Calgary', 'Alberta', 'Canada', 369258741);
+INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
+VALUES (9, '901-234-5678', 'Mother', 'Mary Johnson', 456, 'Queen St', 'M4S 1Y5', 'Toronto', 'Ontario', 'Canada', 951753684);
+INSERT INTO GUARDIAN_VISITOR (visitor_id, contact_number, relationship, name, house_number, street_name, postal_code, city, province, country, visitee_sin)
+VALUES (10, '012-345-6789', 'Brother', 'David Lee', 789, 'King St', 'H1A 1B1', 'Montreal', 'Quebec', 'Canada', 568974231);
 
--- MEDICAL RECORD
-INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (369258147, 'Sarah Johnson', 'Emma Thompson', 'John Smith');
-INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (147258369, 'Sarah Johnson', 'Emma Thompson', 'Jane Doe');
-INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (258369147, 'Michael Brown', 'Andrew Johnson', 'James Smith');
-INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (963852741, 'Michael Brown', 'Andrew Johnson', 'Emily Doe');
-INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (369147258, 'Emily Lee', 'Maggie Johnson', 'Robert Brown');
-INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (879654321, 'Emily Lee', 'Maggie Johnson', 'Alice Lee');
-INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (867530901, 'David Kim', 'David Garcia', 'Michael Johnson');
-INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (369258741, 'David Kim', 'David Garcia', 'Jessica Wong');
-INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (951753684, 'Amy Chen', 'Sophie Evans', 'Mary Johnson');
-INSERT INTO MEDICAL_RECORD (patient_sin,  doctor_name,  nurse_name,  guardian_name) VALUES (568974231, 'Amy Chen', 'Sophie Evans', 'David Lee');
+-- NURSES
+INSERT INTO NURSE (sin, type, position_type, hospital_id)
+VALUES (123456784, 'Registered Nurse', 'Full-time', 1);
+INSERT INTO NURSE (sin, type, position_type, hospital_id)
+VALUES (789456123, 'Licensed Practical Nurse', 'Part-time', 2);
+INSERT INTO NURSE (sin, type, position_type, hospital_id)
+VALUES (456123789, 'Registered Nurse', 'Part-time', 3);
+INSERT INTO NURSE (sin, type, position_type, hospital_id)
+VALUES (852963741, 'Licensed Practical Nurse', 'Full-time', 4);
+INSERT INTO NURSE (sin, type, position_type, hospital_id)
+VALUES (741852963, 'Registered Nurse', 'Full-time', 5);
+INSERT INTO NURSE (sin, type, position_type, hospital_id)
+VALUES (981389532, 'Registered Nurse', 'Part-time', '4');
 
--- ACCOUNT INFORMATION
+-- NURSE ASSISTS PATIENT
+INSERT INTO NURSE_ASSISTS_PATIENT (nurse_sin, patient_sin)
+VALUES (123456784, 369258147), (123456784, 147258369);
+INSERT INTO NURSE_ASSISTS_PATIENT (nurse_sin, patient_sin)
+VALUES (789456123, 258369147), (789456123, 963852741);
+INSERT INTO NURSE_ASSISTS_PATIENT (nurse_sin, patient_sin)
+VALUES (456123789, 369147258), (456123789, 879654321);
+INSERT INTO NURSE_ASSISTS_PATIENT (nurse_sin, patient_sin)
+VALUES (852963741, 867530901), (852963741, 369258741);
+INSERT INTO NURSE_ASSISTS_PATIENT (nurse_sin, patient_sin)
+VALUES (741852963, 951753684), (741852963, 568974231);
 
--- James Wilson
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (369258147, 'james.wilson@gmail.com', 'jwilson82', 'pass123');
--- Melissa Clark
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (147258369, 'melissa.clark@yahoo.com', 'mclark78', 'pass456');
--- Ryan Lee
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (258369147, 'ryan.lee@hotmail.com', 'rlee89', 'pass789');
--- Laura Robinson
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (963852741, 'laura.robinson@gmail.com', 'lrobinson95', 'pass012');
--- Sarah Taylor
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (369147258, 'sarah.taylor@yahoo.com', 'staylor86', 'pass345');
--- Ava Johnson
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (879654321, 'ava.johnson@hotmail.com', 'ajohnson83', 'pass678');
--- Sophia Nguyen
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (867530901, 'sophia.nguyen@gmail.com', 'snguyen94', 'pass901');
--- Grace Park
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (369258741, 'grace.park@yahoo.com', 'gpark89', 'pass234');
--- Jason Lee
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (951753684, 'jason.lee@hotmail.com', 'jlee97', 'pass567');
--- Liam Brown
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (568974231, 'liam.brown@gmail.com', 'lbrown80', 'pass890');
 
--- Doctors ACCOUNT INFO
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (123456789, 'sarahjohnson@example.com', 'sarahj', 'sarahpass');
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (987654321, 'michaelbrown@example.com', 'michaelb', 'michaelpass');
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (246810121, 'emilylee@example.com', 'emilylee', 'emilypass');
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (369121518, 'davidkim@example.com', 'davidk', 'davidpass');
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (951753852, 'amychen@example.com', 'amychen', 'amypass');
+-- ADMINS
+INSERT INTO ADMIN (sin, department, position, hospital_id)
+VALUES (482716935, 'Administration', 'Director', 1);
+INSERT INTO ADMIN (sin, department, position, hospital_id)
+VALUES (456789123, 'Finance', 'Manager', 2);
+INSERT INTO ADMIN (sin, department, position, hospital_id)
+VALUES (764382915, 'Human Resources', 'Coordinator', 3);
+INSERT INTO ADMIN (sin, department, position, hospital_id)
+VALUES (428736951, 'Information Technology', 'Specialist', 4);
+INSERT INTO ADMIN (sin, department, position, hospital_id)
+VALUES (428571639, 'Marketing', 'Associate', 5);
 
--- Admin ACCOUNT INFO
--- Daniel Park
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (482716935, 'daniel.park@example.com', 'dpark', 'mypassword123');
--- Jessica Lee
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (456789123, 'jessica.lee@example.com', 'jlee', 'ilovecats456');
--- John Smith
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (764382915, 'john.smith@example.com', 'jsmith', 'password1234');
--- Michelle Nguyen
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (428736951, 'michelle.nguyen@example.com', 'mnguyen', '12345678');
--- Christopher Lee
-INSERT INTO ACCOUNT_INFORMATION (sin, email, username, password)
-VALUES (428571639, 'christopher.lee@example.com', 'clee', 'secret123');
+-- ADMIN ORDERS SUPPLIES
+INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (482716935, 1);
+INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (482716935, 7);
+INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (456789123, 21);
+INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (456789123, 10);
+INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (764382915, 33);
+INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (764382915, 18);
+INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (428736951, 5);
+INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (428736951, 48);
+INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (428571639, 25);
+INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (428571639, 42);
+
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (1, 10253, 'Acme Inc.', 'Warranty A', DATE '2022-01-15', 36);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (2, 89762, 'Widgets Co.', 'Warranty B', DATE '2021-09-10', 24);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (3, 30579, 'Gadget Corp.', 'Warranty C', DATE '2023-06-01', 12);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (4, 41689, 'Tech Industries', 'Warranty D', DATE '2022-12-25', 18);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (5, 78341, 'Innovate Solutions', 'Warranty E', DATE '2024-03-02', 48);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (6, 52468, 'Tech Industries', 'Warranty F', DATE '2021-05-20', 6);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (7, 91732, 'Widgets Co.', 'Warranty G', DATE '2022-09-15', 36);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (8, 34897, 'Acme Inc.', 'Warranty H', DATE '2023-01-01', 24);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (9, 68549, 'Gadget Corp.', 'Warranty I', DATE '2024-08-10', 12);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (10, 23658, 'Innovate Solutions', 'Warranty J', DATE '2023-11-30', 18);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (11, 12468, 'Tech Industries', 'Warranty K', DATE '2021-08-01', 24);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (12, 75894, 'Acme Inc.', 'Warranty L', DATE '2022-04-05', 36);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (13, 35986, 'Widgets Co.', 'Warranty M', DATE '2023-02-20', 48);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (14, 69320, 'Innovate Solutions', 'Warranty N', DATE '2021-12-15', 6);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (15, 58237, 'Gadget Corp.', 'Warranty O', DATE '2022-06-30', 24);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (16, 24178, 'Tech Industries', 'Warranty P', DATE '2024-07-01', 12);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (17, 97841, 'Innovate Solutions', 'Warranty Q', DATE '2022-05-12', 18);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (18, 20546, 'Widgets Co.', 'Warranty R', DATE '2023-03-25', 24);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (19, 84623, 'Gadget Corp.', 'Warranty S', DATE '2024-10-01', 36);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (20, 17359, 'Acme Inc.', 'Warranty T', DATE '2022-08-15', 48);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (21, 60492, 'Widgets Co.', 'Warranty U', DATE '2021-10-20', 6);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (22, 95287, 'Innovate Solutions', 'Warranty V', DATE '2022-11-05', 18);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (23, 46238, 'Tech Industries', 'Warranty W', DATE '2023-04-30', 24);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (24, 71983, 'Acme Inc.', 'Warranty X', DATE '2024-02-01', 36);
+INSERT INTO EQUIPMENT (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (25, 83597, 'Gadget Corp.', 'Warranty Y', DATE '2021-07-10', 12);
+
+
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (26, 12345678, DATE '2024-08-01');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (27, 87654321, DATE '2023-10-15');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (28, 98765432, DATE '2023-05-31');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (29, 54321678, DATE '2024-09-22');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (30, 87654321, DATE '2023-06-14');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (31, 34567812, DATE '2023-12-05');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (32, 87654321, DATE '2023-07-19');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (33, 98765432, DATE '2024-03-12');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (34, 12345678, DATE '2024-06-30');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (35, 54321678, DATE '2024-07-11');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (36, 34567812, DATE '2024-02-25');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (37, 87654321, DATE '2023-11-01');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (38, 98765432, DATE '2024-01-22');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (39, 34567812, DATE '2024-10-08');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (40, 12345678, DATE '2024-05-15');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (41, 54321678, DATE '2023-09-18');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (42, 98765432, DATE '2024-02-10');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (43, 34567812, DATE '2024-08-29');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (44, 87654321, DATE '2023-06-25');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (45, 12345678, DATE '2023-12-19');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (46, 54321678, DATE '2024-03-07');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (47, 34567812, DATE '2023-11-26');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (48, 98765432, DATE '2024-09-13');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (49, 87654321, DATE '2023-08-08');
+INSERT INTO MEDICATION (item_id, din_number, expiry_date) VALUES (50, 12345678, DATE '2024-04-23');
 
 -- PATIENT ORDERS MEDICATION
 INSERT INTO PATIENT_ORDERS_MEDICATION (patient_sin, item_id) VALUES (369258147, 30);
@@ -1126,17 +1139,7 @@ INSERT INTO PATIENT_ORDERS_MEDICATION (patient_sin, item_id) VALUES (369258741, 
 INSERT INTO PATIENT_ORDERS_MEDICATION (patient_sin, item_id) VALUES (951753684, 31);
 INSERT INTO PATIENT_ORDERS_MEDICATION (patient_sin, item_id) VALUES (568974231, 37);
 
--- ADMIN ORDERS SUPPLIES
-INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (482716935, 1);
-INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (482716935, 7);
-INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (456789123, 21);
-INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (456789123, 10);
-INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (764382915, 33);
-INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (764382915, 18);
-INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (428736951, 5);
-INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (428736951, 48);
-INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (428571639, 25);
-INSERT INTO ADMIN_ORDERS_SUPPLIES (admin_sin, item_id) VALUES (428571639, 42);
+
 
 
 
