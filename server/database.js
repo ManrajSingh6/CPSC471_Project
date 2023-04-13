@@ -2,10 +2,8 @@ import mysql, { format } from 'mysql2';
 
 const pool = mysql.createPool({
     host: '127.0.0.1',
-    // CONNECT TO THE user HERE (eg. root)
-    user: '', 
-    // ENTER THE USER's PASSWORD HERE
-    password: '',
+    user: 'root',
+    password: 'Manuraj25',
     database: 'hospitaldatabase'
 }).promise();
 
@@ -14,11 +12,35 @@ export async function getAllPeople(){
     return data;
 }
 
-export async function loginUser(username, password){
+export async function loginUser(username, password, usertype){
     const [query] = await pool.query(
         "SELECT * FROM account_information WHERE username = ? AND password = ?", [username, password]
     );
-    return query;
+
+    if (query.length === 1){
+        const userSIN = query[0].sin;
+        if (usertype === "patient"){
+            const [res] = await pool.query('SELECT * FROM patient WHERE sin = ?', [userSIN]);
+            if (res.length !== 1) {
+                return false;
+            }
+        }
+        if (usertype === "doctor"){
+            const [resTwo] = await pool.query('SELECT * FROM doctor WHERE sin = ?', [userSIN]);
+            if (resTwo.length !== 1) {
+                return false;
+            }
+        }
+        if (usertype === "admin"){
+            const [resThree] = await pool.query('SELECT * FROM admin WHERE sin = ?', [userSIN]);
+            if (resThree.length !== 1) {
+                return false;
+            }
+        }
+        return {loginStatus: true, query};
+    } else {
+        return false;
+    }
 }
 
 export async function registerUser(patientData, guardianData, nurseName, doctorName){
@@ -687,18 +709,27 @@ export async function addEquipmentToHospital(admin_id, equip){
 }
 
 export async function addPatientAppointment(id, newDateTime){
-    const formattedDate = new Date(newDateTime).toISOString().slice(0, 19).replace('T', ' ');
+    
+    const temp = new Date(newDateTime).toLocaleString();
+    const secondTemp = new Date(temp);
+    const isoString = secondTemp.toISOString().slice(0, 19).replace('T', ' ');
+
+    // console.log(temp);
+    // console.log(isoString);
+
+    // console.log("temp: " + temp);
+    // const formattedDate = new Date(newDateTime).toISOString().slice(0, 19).replace('T', ' ');
 
     const [alreadyExists] = await pool.query(
-        `SELECT * FROM appointments WHERE (patient_sin = ? AND appointment = ?)`, [id, formattedDate]
+        `SELECT * FROM appointments WHERE (patient_sin = ? AND appointment = ?)`, [id, isoString]
     );
 
     if (alreadyExists.length === 1){
         return false;
     } else {
         const insertQuery = 'INSERT INTO appointments (patient_sin, appointment) VALUES (?, ?)';
-        const insertValues = [id, formattedDate];
-        console.log(formattedDate);
+        const insertValues = [id, isoString];
+        // console.log(formattedDate);
         await pool.query(insertQuery, insertValues, (error, result) => {
             if (error) {
                 return (false);
@@ -816,7 +847,7 @@ export async function addDoctorToPatient(patientID, doctorSIN){
 
 
 export async function assignDoctor(patientID, doctorSIN){
-    console.log(patientID, doctorSIN);
+    // console.log(patientID, doctorSIN);
 
     const [alreadyExists] = await pool.query(
         `SELECT * FROM doctor_attends_patient WHERE doctor_sin = ? AND patient_sin = ?`, [doctorSIN, patientID]
@@ -1079,7 +1110,7 @@ export async function deleteDoctor(doctorSIN){
     }
 
     const doctorName = await getNameByID(doctorSIN);
-    console.log(doctorName[0].name);
+    // console.log(doctorName[0].name);
 
     const [medRec] = await pool.query(`SELECT * FROM medical_record WHERE doctor_name = ?`, [doctorName[0].name]);
     if (medRec.length >= 1){
@@ -1139,7 +1170,7 @@ export async function deleteNurse(nurseSIN){
     }
 
     const nurseName = await getNameByID(nurseSIN);
-    console.log(nurseName[0].name);
+    // console.log(nurseName[0].name);
 
     const [medRec] = await pool.query(`SELECT * FROM medical_record WHERE nurse_name = ?`, [nurseName[0].name]);
     if (medRec.length >= 1){

@@ -9,8 +9,8 @@ export default function EmployeeCard(props){
 
     async function deleteAccount(ev){
         ev.preventDefault();
-        console.log(props.sin);
-        console.log(props.cardType);
+        // console.log(props.sin);
+        // console.log(props.cardType);
         const response = await fetch(`http://localhost:5000/delete-employee-account`, {
             method: 'POST',
             body: JSON.stringify({employeeSIN: props.sin, employeeType:props.cardType}),

@@ -87,12 +87,12 @@ export default function UpdateRecordPage(){
 
     function handlePrescriptionChange(event){
         setPrescLength(event.target.value === "" ? "" : event.target.value);
-        console.log(event.target.value);
+        // console.log(event.target.value);
     }
 
     function handleDosageChange(event){
         setDosage(event.target.value === "" ? "" : event.target.value);
-        console.log(event.target.value);
+        // console.log(event.target.value);
     }
 
     function isWhitespace(str) {
@@ -186,7 +186,7 @@ export default function UpdateRecordPage(){
     async function handleAssignRemove(ev){
         const choice = ev.target.textContent;
         if (choice === "Assign"){
-            console.log(newAssignedNurse);
+            // console.log(newAssignedNurse);
             const response = await fetch(`http://localhost:5000/patient/add-nurse/${id}`, {
                 method: 'POST',
                 body: JSON.stringify({newNurseSin: newAssignedNurse}),
@@ -201,7 +201,7 @@ export default function UpdateRecordPage(){
         }
 
         if (choice === "Unassign"){
-            console.log(currentNurse);
+            // console.log(currentNurse);
             const response = await fetch(`http://localhost:5000/patient/remove-nurse/${id}`, {
                 method: 'POST',
                 body: JSON.stringify({removeNurseSin: currentNurse}),
@@ -263,7 +263,7 @@ export default function UpdateRecordPage(){
                 </div>
             </div>
             <div className="sub-container-1">
-                <div className="container-div">
+                {/* <div className="container-div">
                     <h3>Add Patient Profile Note</h3>
                     <textarea 
                         placeholder="Add a new note."
@@ -271,8 +271,8 @@ export default function UpdateRecordPage(){
                         onChange={(ev) => setNewNote(ev.target.value)}
                     />
                     <button className="primary-btn">Add Note</button>
-                </div>
-                <div className="container-div">
+                </div> */}
+                <div className="container-div" style={{width: "100%"}}>
                     <h3>Remove Prescriptions</h3>
                     <ul>
                     {

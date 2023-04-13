@@ -40,7 +40,7 @@ export default function AdminAddEmployee(){
             credentials: 'include',
         }).then(response => {
             response.json().then(resData => {
-                console.log(resData);
+                // console.log(resData);
                 setAllDeps(resData);
                 setIsLoading(false);
             });
@@ -51,10 +51,10 @@ export default function AdminAddEmployee(){
         ev.preventDefault();
 
         if (userType === "doctor"){
-            console.log(patientInfo);
-            console.log(deptNum);
-            console.log(qualification);
-            console.log(specialization);
+            // console.log(patientInfo);
+            // console.log(deptNum);
+            // console.log(qualification);
+            // console.log(specialization);
 
             const doctorInfo = {
                 deptNum, qualification, specialization
@@ -76,9 +76,9 @@ export default function AdminAddEmployee(){
         }
 
         if (userType === "nurse"){
-            console.log(patientInfo);
-            console.log(nurseType);
-            console.log(positionType);
+            // console.log(patientInfo);
+            // console.log(nurseType);
+            // console.log(positionType);
 
             const nurseInfo = { nurseType, positionType };
 

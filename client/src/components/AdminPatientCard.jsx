@@ -106,7 +106,7 @@ export default function AdminPatientCard(props){
     }
 
     async function assignRoom(){
-        console.log(selectedRoom);
+        // console.log(selectedRoom);
         if (selectedRoom !== ""){
             const response = await fetch(`http://localhost:5000/patient/assign-room/${props.sin}`, {
                 method: 'PUT',
@@ -124,7 +124,7 @@ export default function AdminPatientCard(props){
     }
 
     async function assignNurse(){
-        console.log(selectedNurse);
+        // console.log(selectedNurse);
         if (selectedNurse === ""){
             toast.error("Cannot have empty field.");
         } else {
@@ -143,7 +143,7 @@ export default function AdminPatientCard(props){
     }
 
     async function assignDoctor(){
-        console.log(selectedDoctor);
+        // console.log(selectedDoctor);
         if (selectedDoctor === ""){
             toast.error("Cannot have empty field.");
         } else {
@@ -164,7 +164,7 @@ export default function AdminPatientCard(props){
 
     async function deleteAccount(ev){
         ev.preventDefault();
-        console.log(props.sin);
+        // console.log(props.sin);
         const response = await fetch(`http://localhost:5000/delete-patient-account`, {
             method: 'POST',
             body: JSON.stringify({patientSIN: props.sin}),

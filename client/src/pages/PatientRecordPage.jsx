@@ -19,7 +19,7 @@ export default function PatientRecordPage(){
     }, []);
 
     function showGuardianVisitorInfo(){
-        console.log("Clicked");
+        // console.log("Clicked");
     }
 
     if (isLoading){
@@ -122,13 +122,13 @@ export default function PatientRecordPage(){
                     </div>
                 </div>
             </div>
-            <div className="doctor-notes-container">
+            {/* <div className="doctor-notes-container">
                 <h2 style={{textAlign: "center", marginBottom: "20px"}}>Notes From Doctors</h2>
                 <div className="doctor-note">
                     <h3>Dr. Firstname Lastname</h3>
                     <p>"NEED TO IMPLEMENT THIS STILL IN THE SQL FILE DATABASE</p>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }

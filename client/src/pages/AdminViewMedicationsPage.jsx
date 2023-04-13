@@ -47,7 +47,7 @@ export default function AdminViewMedicationsPage(){
 
     async function addMedication(ev){
         ev.preventDefault();
-        console.log(newMedInfo);
+        // console.log(newMedInfo);
 
         const response = await fetch(`http://localhost:5000/admin/add-medication/${id}`, {
             method: 'POST',

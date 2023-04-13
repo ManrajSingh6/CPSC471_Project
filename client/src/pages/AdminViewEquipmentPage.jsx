@@ -50,7 +50,7 @@ export default function AdminViewEquipmentPage(){
 
     async function addEquipment(ev){
         ev.preventDefault();
-        console.log(newEquipInfo);
+        // console.log(newEquipInfo);
 
         const response = await fetch(`http://localhost:5000/admin/add-equipment/${id}`, {
             method: 'POST',

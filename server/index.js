@@ -72,15 +72,15 @@ app.get('/', async (req, res) => {
 
 app.post('/login', async (req, res) => {
     const {usertype, username, password} = req.body;
-    const loginResponse = await loginUser(username, password);
-    if (loginResponse.length === 1){
-        jwt.sign({usertype, userSIN: loginResponse[0].sin, username, email: loginResponse[0].email}, secret, {}, (err, token) => {
+    const loginResponse = await loginUser(username, password, usertype);
+    if (loginResponse.loginStatus){
+        jwt.sign({usertype, userSIN: loginResponse.query[0].sin, username, email: loginResponse.query[0].email}, secret, {}, (err, token) => {
             if (err) throw err;
             res.cookie('token', token).json({
                 usertype,
-                userSIN: loginResponse[0].sin, 
+                userSIN: loginResponse.query[0].sin, 
                 username, 
-                email: loginResponse[0].email
+                email: loginResponse.query[0].email
             });
         });
     } else {
@@ -90,7 +90,7 @@ app.post('/login', async (req, res) => {
 
 app.post('/register', async (req, res) => {
     const {patientData, guardianData} = req.body;
-    console.log(patientData);
+    // console.log(patientData);
 
     let doctorName = null;
     let nurseName = null;
@@ -491,7 +491,7 @@ app.post('/delete-patient-account', async (req, res) => {
 
 app.post('/delete-employee-account', async (req, res) => {
     const {employeeSIN, employeeType} = req.body;
-    console.log(employeeSIN, employeeType);
+    // console.log(employeeSIN, employeeType);
 
     if (employeeType === "doctor"){
         const deletedDocter = await deleteDoctor(employeeSIN);

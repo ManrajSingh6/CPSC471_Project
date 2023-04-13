@@ -3,10 +3,9 @@ import "../pages/PatientAppointment.css";
 export default function PatientAppointmentCard(props){
 
     const appointmentDate = new Date(props.appointment).toLocaleDateString();
-    const appointmentTime = new Date(props.appointment).toLocaleTimeString();
-    // const appointmentDateTime = new Date(props.appointment).toISOString().slice(0, 19).replace('T', ' ');
-    // const appointmentDate = appointmentDateTime.split(" ")[0];
-    // const appointmentTime = appointmentDateTime.split(" ")[1];
+    const newTime = new Date(props.appointment);
+    newTime.setHours(newTime.getHours() - 6);
+    const appointmentTime = new Date(newTime).toLocaleTimeString();
     const appointmentAddress = props.house_number + " " + props.street_name + ", " + props.city + ", " + props.province + ", " + props.country + ", " + props.postal_code;
     
     return (
