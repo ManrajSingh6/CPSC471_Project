@@ -1,15 +1,28 @@
 import "../pages/AdminPagesStyles.css";
+import { useState } from "react";
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function EmployeeCard(props){
+    const [confirmToggled, setConfirmToggled] = useState(false);
 
-    function manageAppointments(ev){
+    async function deleteAccount(ev){
         ev.preventDefault();
-    }
-    function updateAccountInfo(ev){
-        ev.preventDefault();
-    }   
-    function deleteAccount(ev){
-        ev.preventDefault();
+        console.log(props.sin);
+        console.log(props.cardType);
+        const response = await fetch(`http://localhost:5000/delete-employee-account`, {
+            method: 'POST',
+            body: JSON.stringify({employeeSIN: props.sin, employeeType:props.cardType}),
+            headers: {'Content-Type':'application/json'}
+        });
+
+        if (response.ok){
+            window.location.reload();
+            toast.success("Successfully deleted account.");
+        } else {
+            toast.error("Error deleting employee.");
+        }
     }      
     return(
         <div className="room-card">
@@ -18,28 +31,19 @@ export default function EmployeeCard(props){
         }
             <p><strong>Date of birth: </strong>{new Date(props.date_of_birth).toLocaleDateString()}</p>
             <div style={{marginTop: "25px"}}>
-            {
-                props.cardType === "doctor" ? (
-                    <button 
-                        className="primary-btn" 
-                        onClick={manageAppointments}
-                        style={{marginTop: "5px", boxShadow: "none"}}>
-                        Manage Appointments
-                    </button>
-                ) : (null)
-            }
                 <button 
                     className="primary-btn" 
-                    onClick={updateAccountInfo}
-                    style={{marginTop: "5px", boxShadow: "none"}}>
-                    Update Account Information
-                </button>
-                <button 
-                    className="primary-btn" 
-                    onClick={deleteAccount}
+                    onClick={() => setConfirmToggled(prevToggle => !prevToggle)}
                     style={{marginTop: "5px", boxShadow: "none",backgroundColor: "red"}}>
                     Delete Account
                 </button>
+                {
+                    confirmToggled ? (
+                        <p>Are you sure?
+                        <strong><span style={{color: "red", cursor: "pointer"}} onClick={deleteAccount}> Yes </span></strong> 
+                         or <strong><span style={{color: "green", cursor: "pointer"}} onClick={() => setConfirmToggled(prevToggle => !prevToggle)}>No</span></strong></p>
+                    ) : (null)
+                }
             </div>
         </div>
     );

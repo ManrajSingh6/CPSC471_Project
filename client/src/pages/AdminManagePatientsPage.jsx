@@ -1,7 +1,7 @@
 import "./AdminPagesStyles.css";
 import { useState, useEffect } from "react";
 import AdminPatientCard from "../components/AdminPatientCard";
-import {useParams} from "react-router-dom";
+import {useParams, Link} from "react-router-dom";
 
 
 export default function AdminManagePatientsPage(){
@@ -28,15 +28,6 @@ export default function AdminManagePatientsPage(){
         setTempSearchQuery('');
     }
 
-    function addEmployee(ev){
-        ev.preventDefault();
-    }
-
-    function addPatient(ev){
-        ev.preventDefault();
-
-    }
-
     if (isLoading){
         return(<div className="main-report-container">Loading</div>)
     }
@@ -55,12 +46,13 @@ export default function AdminManagePatientsPage(){
                 style={{marginTop: "25px", marginBottom: "25px", alignSelf: "center"}}>
                 Find
             </button>
-            <button 
-                className="primary-btn" 
-                onClick={addPatient}
-                style={{marginTop: "25px", marginBottom: "25px", alignSelf: "flex-start"}}>
-                Add New Patient
-            </button>
+            <Link to={`/admin/${id}/add-patient`}>
+                <button 
+                    className="primary-btn" 
+                    style={{marginTop: "25px", marginBottom: "25px", alignSelf: "flex-start"}}>
+                    Add New Patient
+                </button>
+            </Link>
             {
                 allPatients.filter((val) => {
                 if (searchQuery === ""){ return val;} 

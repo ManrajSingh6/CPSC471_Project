@@ -1,4 +1,4 @@
-import mysql from 'mysql2';
+import mysql, { format } from 'mysql2';
 
 const pool = mysql.createPool({
     host: '127.0.0.1',
@@ -19,7 +19,7 @@ export async function loginUser(username, password){
     return query;
 }
 
-export async function registerUser(patientData, guardianData){
+export async function registerUser(patientData, guardianData, nurseName, doctorName){
     let creationError = false;
 
     let userExists = false;
@@ -50,7 +50,7 @@ export async function registerUser(patientData, guardianData){
         });
 
         const patientQuery = 'INSERT INTO patient (sin, weight_kg, height_ft, sex, hospital_id, room_no) VALUES (?, ?, ?, ?, ?, ?)';
-        const patientValues = [patientData.pSIN, patientData.pWeight, patientData.pHeight, patientData.pSex, patientData.pHospitalPref, null];
+        const patientValues = [patientData.pSIN, patientData.pWeight, patientData.pHeight, patientData.pSex, patientData.pHospitalPref, patientData.pRoomNum];
 
         await pool.query(patientQuery, patientValues, (error, result) => {
             if (error) {
@@ -70,7 +70,7 @@ export async function registerUser(patientData, guardianData){
         });
 
         const medicalRecordQuery = 'INSERT INTO medical_record (patient_sin, doctor_name, nurse_name, guardian_name) VALUES (?, ?, ?, ?)';
-        const medicalValues = [patientData.pSIN, null, null, guardianData.gFullname];
+        const medicalValues = [patientData.pSIN, doctorName, nurseName, guardianData.gFullname];
 
         await pool.query(medicalRecordQuery, medicalValues, (error, result) => {
             if (error) {
@@ -78,6 +78,27 @@ export async function registerUser(patientData, guardianData){
                 // throw error;
             }
         })
+
+        if (patientData.pDoctorChoice !== null && patientData.pNurseChoice !== null){
+            const insertQuery = 'INSERT INTO doctor_attends_patient (doctor_sin, patient_sin) VALUES (?, ?)';
+            const insertValues = [patientData.pDoctorChoice, patientData.pSIN];
+
+            await pool.query(insertQuery, insertValues, (error, result) => {
+                if (error) {
+                    creationError = true;
+                    // throw error;
+                }
+            });
+            const insertQuerySecond = 'INSERT INTO nurse_assists_patient (nurse_sin, patient_sin) VALUES (?, ?)';
+            const insertValuesSecond = [patientData.pNurseChoice, patientData.pSIN];
+
+            await pool.query(insertQuerySecond, insertValuesSecond, (error, result) => {
+                if (error) {
+                    creationError = true;
+                    // throw error;
+                }
+            });
+        }
 
         if (creationError){
             return "Creation Error";
@@ -88,6 +109,11 @@ export async function registerUser(patientData, guardianData){
         return "User Exists";
     }
     
+}
+
+export async function getNameByID(id){
+    const [name] = await pool.query(`SELECT P.name FROM person AS P WHERE P.sin = ?`, [id]);
+    return (name);
 }
 
 export async function getAdminInfo(id){
@@ -275,7 +301,11 @@ export async function getAllEquipmentAtHospital(admin_id){
         `, [hospitalID[0].hospital_id]
     );
 
-    return (allEquipment);
+    const [allRooms] = await pool.query(
+        `SELECT R.room_number FROM room AS R WHERE (R.hospital_id = ?)`, [hospitalID[0].hospital_id]
+    );
+
+    return ({allEquipment, allRooms});
 }
 
 export async function getAllPatientsByHospital(admin_id){
@@ -283,9 +313,9 @@ export async function getAllPatientsByHospital(admin_id){
 
     const [allPatientsAtHospital] = await pool.query(
         `
-        SELECT P.*, PS.name, PS.date_of_birth
-        FROM patient AS P, person as PS
-        WHERE (P.hospital_id = ? AND PS.sin = P.sin)`, [hospitalID[0].hospital_id]
+        SELECT P.*, PS.name, PS.date_of_birth, M.doctor_name, M.nurse_name
+        FROM patient AS P, person as PS, medical_record AS M
+        WHERE (P.hospital_id = ? AND PS.sin = P.sin AND P.sin = M.patient_sin)`, [hospitalID[0].hospital_id]
     );
 
     return allPatientsAtHospital;
@@ -564,6 +594,590 @@ export async function addQuantity(hospitalID, itemID, newQuantity){
             return (false);
         }
     });
+
+    return true;
+}
+
+export async function deleteHospitalMedication(itemID, hospitalID){
+    const deleteQuery = 'DELETE FROM supplies WHERE (item_id = ? AND hospital_id = ?)';
+    const deleteValues = [itemID, hospitalID];
+
+    await pool.query(deleteQuery, deleteValues, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+
+    const deleteQuerySecond = 'DELETE FROM medication WHERE (item_id = ?)';
+    const deleteValuesSecond = [itemID, hospitalID];
+
+    await pool.query(deleteQuerySecond, deleteValuesSecond, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+
+    return(true);
+}
+
+export async function deleteHospitalEquipment(itemID, hospitalID){
+    const deleteQuery = 'DELETE FROM supplies WHERE (item_id = ? AND hospital_id = ?)';
+    const deleteValues = [itemID, hospitalID];
+
+    await pool.query(deleteQuery, deleteValues, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+
+    const deleteQuerySecond = 'DELETE FROM equipment WHERE (item_id = ?)';
+    const deleteValuesSecond = [itemID, hospitalID];
+
+    await pool.query(deleteQuerySecond, deleteValuesSecond, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+
+    return(true);
+}
+
+export async function addEquipmentToHospital(admin_id, equip){
+    const [hospitalID] = await pool.query(
+        `SELECT A.hospital_id
+        FROM admin AS A
+        WHERE A.sin = ?`, [admin_id]
+    );
+
+    const hospital_id = hospitalID[0].hospital_id;
+
+    const [itemExists] = await pool.query(
+        `
+        SELECT S.item_id, S.name, S.price
+        FROM supplies AS S
+        WHERE (S.item_id = ? AND S.hospital_id = ?);
+        `, [equip.ID, hospital_id]
+    );
+
+    if (itemExists.length === 1){
+        return false;
+    } else {
+        const insertQuery = 'INSERT INTO supplies (item_id, name, price, category, quantity, hospital_id, room_number) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        const insertValues = [equip.ID, equip.Name, equip.Price, equip.Category, equip.Quantity, hospital_id, equip.RoomChoice];
+
+        await pool.query(insertQuery, insertValues, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+
+        const secondInsertQuery = 'INSERT INTO equipment (item_id, equipment_number, manufacturer, warranty_name, warranty_start, warranty_length_months) VALUES (?, ?, ?, ?, ?, ?)';
+        const secondInsertValues = [equip.ID, equip.eqNumber, equip.manufacturer, equip.warranty_name, equip.warranty_start, equip.warranty_length];
+
+        await pool.query(secondInsertQuery, secondInsertValues, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+
+        return (true);
+    }
+}
+
+export async function addPatientAppointment(id, newDateTime){
+    const formattedDate = new Date(newDateTime).toISOString().slice(0, 19).replace('T', ' ');
+
+    const [alreadyExists] = await pool.query(
+        `SELECT * FROM appointments WHERE (patient_sin = ? AND appointment = ?)`, [id, formattedDate]
+    );
+
+    if (alreadyExists.length === 1){
+        return false;
+    } else {
+        const insertQuery = 'INSERT INTO appointments (patient_sin, appointment) VALUES (?, ?)';
+        const insertValues = [id, formattedDate];
+        console.log(formattedDate);
+        await pool.query(insertQuery, insertValues, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+
+        return (true);
+
+    }
+}
+
+export async function removePatientAppointment(id, removalApp){
+    const inputDate = new Date(removalApp);
+    const outputDateString = `${inputDate.getFullYear()}-${(inputDate.getMonth()+1).toString().padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')} ${inputDate.getHours().toString().padStart(2, '0')}:${inputDate.getMinutes().toString().padStart(2, '0')}:${inputDate.getSeconds().toString().padStart(2, '0')}`;
+    
+    const [alreadyExists] = await pool.query(
+        `SELECT * FROM appointments WHERE (patient_sin = ? AND appointment = ?)`, [id, outputDateString]
+    );
+
+    if (alreadyExists.length === 1){
+        const deleteQuery = 'DELETE FROM appointments WHERE (patient_sin = ? AND appointment = ?)';
+        const deleteValues = [id, outputDateString];
+        await pool.query(deleteQuery, deleteValues, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+
+        return (true);
+
+    } else {
+        return (false);
+    }
+}
+
+export async function modifyPatientAppointment(id, appToChange, newAppTime){
+    const inputDate = new Date(appToChange);
+    const outputDateString = `${inputDate.getFullYear()}-${(inputDate.getMonth()+1).toString().padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')} ${inputDate.getHours().toString().padStart(2, '0')}:${inputDate.getMinutes().toString().padStart(2, '0')}:${inputDate.getSeconds().toString().padStart(2, '0')}`;
+    const newAppFormatted = new Date(newAppTime).toISOString().slice(0, 19).replace('T', ' ');
+    
+    const [alreadyExists] = await pool.query(
+        `SELECT * FROM appointments WHERE (patient_sin = ? AND appointment = ?)`, [id, outputDateString]
+    );
+    if (alreadyExists.length === 1){
+        const modifyQuery = 'UPDATE appointments SET appointment = ? WHERE patient_sin = ? AND appointment = ?';
+        const modifyValues = [newAppFormatted, id, outputDateString];
+        await pool.query(modifyQuery, modifyValues, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+        return (true);
+    } else {
+        return (false);
+    }
+}
+
+export async function assignRoom(patientID, roomNumber){
+    const query = 'UPDATE patient SET room_no = ? WHERE sin = ?';
+    const values = [roomNumber, patientID];
+
+    await pool.query(query, values, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+    return (true);
+}
+
+export async function assignNurse(patientID, nurseSIN){
+
+    const [alreadyExists] = await pool.query(
+        `SELECT * FROM nurse_assists_patient WHERE nurse_sin = ? AND patient_sin = ?`, [nurseSIN, patientID]
+    );
+
+    if (alreadyExists.length !== 1){
+        await addNurseToPatient(patientID, nurseSIN);
+    }
+
+    const query = 'UPDATE nurse_assists_patient SET nurse_sin = ? WHERE patient_sin = ?'; 
+    const values = [nurseSIN, patientID];
+
+    await pool.query(query, values, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+    
+    const nurseName = await getNameByID(nurseSIN);
+    const secondQuery = 'UPDATE medical_record SET nurse_name = ? WHERE patient_sin = ?';
+    const secondValues = [nurseName[0].name, patientID];
+
+    await pool.query(secondQuery, secondValues, (error, result) => {
+        if (error) {
+            return (false);
+        }
+    });
+
+    return (true);
+}
+
+export async function addDoctorToPatient(patientID, doctorSIN){
+    const insertQuery = 'INSERT INTO doctor_attends_patient (doctor_sin, patient_sin) VALUES (?, ?)';
+    const insertValues = [doctorSIN, patientID];
+
+    await pool.query(insertQuery, insertValues, (error, result) => {
+        if (error) {
+            creationError = true;
+            // throw error;
+        }
+    });
+
+    return true;
+}
+
+
+export async function assignDoctor(patientID, doctorSIN){
+    console.log(patientID, doctorSIN);
+
+    const [alreadyExists] = await pool.query(
+        `SELECT * FROM doctor_attends_patient WHERE doctor_sin = ? AND patient_sin = ?`, [doctorSIN, patientID]
+    );
+
+    if (alreadyExists.length !== 1){
+        await addDoctorToPatient(patientID, doctorSIN);
+        const doctorName = await getNameByID(doctorSIN);
+        const secondQuery = 'UPDATE medical_record SET doctor_name = ? WHERE patient_sin = ?';
+        const secondValues = [doctorName[0].name, patientID];
+
+        await pool.query(secondQuery, secondValues, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+        return true;
+    } else {
+        const query = 'UPDATE doctor_attends_patient SET doctor_sin = ? WHERE patient_sin = ?'; 
+        const values = [doctorSIN, patientID];
+
+        await pool.query(query, values, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    
+        const doctorName = await getNameByID(doctorSIN);
+        const secondQuery = 'UPDATE medical_record SET doctor_name = ? WHERE patient_sin = ?';
+        const secondValues = [doctorName[0].name, patientID];
+
+        await pool.query(secondQuery, secondValues, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+        return (true);
+    }
+}
+
+export async function deletePatientAccount(patientSIN){
+    const value = [patientSIN];
+
+    const [prescExists] = await pool.query(`SELECT * FROM prescriptions WHERE patient_sin = ?`, [patientSIN]);
+    if (prescExists.length >= 1){
+        const deletePrescQuery = 'DELETE FROM prescriptions WHERE patient_sin = ?';
+        await pool.query(deletePrescQuery, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+
+    const [vgExists] = await pool.query(`SELECT * FROM guardian_visitor WHERE visitee_sin = ?`, [patientSIN]);
+    if (vgExists.length >= 1){
+        const deleteGVQuery = 'DELETE FROM guardian_visitor WHERE visitee_sin = ?';
+        await pool.query(deleteGVQuery, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+    
+    const [appointmentsExist] = await pool.query(`SELECT * FROM appointments WHERE patient_sin = ?`, [patientSIN]);
+    if (appointmentsExist.length >= 1){
+        const deleteAppointmentsQuery = 'DELETE FROM appointments WHERE patient_sin = ?';
+        await pool.query(deleteAppointmentsQuery, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+    
+    const [medRecordExist] = await pool.query(`SELECT * FROM medical_record WHERE patient_sin = ?`, [patientSIN]);
+    if (medRecordExist.length >= 1){
+        const deleteMedicalRecordQuery = 'DELETE FROM medical_record WHERE patient_sin = ?';
+        await pool.query(deleteMedicalRecordQuery, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+    
+    const [nursePatientExist] = await pool.query(`SELECT * FROM nurse_assists_patient WHERE patient_sin = ?`, [patientSIN]);
+    if (nursePatientExist.length >= 1){
+        const deleteNursePatient = 'DELETE FROM nurse_assists_patient WHERE patient_sin = ?';
+        await pool.query(deleteNursePatient, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+    
+    const [doctorPatientExist] = await pool.query(`SELECT * FROM doctor_attends_patient WHERE patient_sin = ?`, [patientSIN]);
+    if (doctorPatientExist.length >= 1){
+        const deleteDoctorPatient = 'DELETE FROM doctor_attends_patient WHERE patient_sin = ?';
+        await pool.query(deleteDoctorPatient, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+    
+    const [patientRecordExist] = await pool.query(`SELECT * FROM patient WHERE sin = ?`, [patientSIN]);
+    if (patientRecordExist.length >= 1){
+        const deletePatientRecord = 'DELETE FROM patient WHERE sin = ?';
+        await pool.query(deletePatientRecord, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+    
+    const [accountInfoExist] = await pool.query(`SELECT * FROM account_information WHERE sin = ?`, [patientSIN]);
+    if (accountInfoExist.length >= 1){
+        const deleteAccountInfo = 'DELETE FROM account_information WHERE sin = ?';
+        await pool.query(deleteAccountInfo, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+    
+    const [personRecordExist] = await pool.query(`SELECT * FROM person WHERE sin = ?`, [patientSIN]);
+    if (personRecordExist.length >= 1){
+        const deletePersonRecord = 'DELETE FROM person WHERE sin = ?';
+        await pool.query(deletePersonRecord, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+    
+    return (true);
+}
+
+export async function getAllHositalDepartments(id){
+    const [hospitalID] = await pool.query(
+        `SELECT A.hospital_id
+        FROM admin AS A
+        WHERE A.sin = ?`, [id]
+    );
+
+    const hospital_id = hospitalID[0].hospital_id;
+
+    const [allDeps] = await pool.query(
+        `SELECT * FROM department AS D WHERE D.hospital_id = ?`, [hospital_id]
+    );
+
+    return allDeps;
+}
+
+export async function createDoctor(adminID, personInfo, doctorInfo){
+    const [hospitalID] = await pool.query(
+        `SELECT A.hospital_id
+        FROM admin AS A
+        WHERE A.sin = ?`, [adminID]
+    );
+
+    const hospital_id = hospitalID[0].hospital_id;
+
+    const [personExists] = await pool.query(
+        `SELECT * FROM person WHERE sin = ?`, [personInfo.pSIN]
+    );
+
+    if (personExists.length !== 1){
+        const personQuery = 'INSERT INTO person (sin, name, date_of_birth, house_number, street_name, postal_code, city, province, country, phone_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const personValues = [personInfo.pSIN, personInfo.pFullname, personInfo.pDOB, personInfo.pHouseNum, personInfo.pStreetAddr, personInfo.pPostalCode, personInfo.pCity, personInfo.pProvince, personInfo.pCountry, personInfo.pPhone];
+
+        await pool.query(personQuery, personValues, (error, result) => {
+            if (error) {
+                creationError = true;
+                // throw error;
+            }
+        });
+    }
+
+    const accountQuery = 'INSERT INTO account_information (sin, email, username, password) VALUES (?, ?, ?, ?)';
+    const accountValues = [personInfo.pSIN, personInfo.pEmail, personInfo.pUsername, personInfo.pPassword];
+
+    await pool.query(accountQuery, accountValues, (error, result) => {
+        if (error) {
+            creationError = true;
+            // throw error;
+        }
+    });
+
+    const doctorQuery = "INSERT INTO doctor (sin, qualification, specialization, dept_no, hospital_id) VALUES (?, ?, ?, ?, ?)";
+    const doctorValues = [personInfo.pSIN, doctorInfo.qualification, doctorInfo.specialization, doctorInfo.deptNum, hospital_id];
+
+    await pool.query(doctorQuery, doctorValues, (error, result) => {
+        if (error) {
+            creationError = true;
+            // throw error;
+        }
+    });
+
+    return true;
+}
+
+export async function createNurse(adminID, personInfo, nurseInfo){
+    const [hospitalID] = await pool.query(
+        `SELECT A.hospital_id
+        FROM admin AS A
+        WHERE A.sin = ?`, [adminID]
+    );
+
+    const hospital_id = hospitalID[0].hospital_id;
+
+    const [personExists] = await pool.query(
+        `SELECT * FROM person WHERE sin = ?`, [personInfo.pSIN]
+    );
+
+    if (personExists.length !== 1){
+        const personQuery = 'INSERT INTO person (sin, name, date_of_birth, house_number, street_name, postal_code, city, province, country, phone_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const personValues = [personInfo.pSIN, personInfo.pFullname, personInfo.pDOB, personInfo.pHouseNum, personInfo.pStreetAddr, personInfo.pPostalCode, personInfo.pCity, personInfo.pProvince, personInfo.pCountry, personInfo.pPhone];
+
+        await pool.query(personQuery, personValues, (error, result) => {
+            if (error) {
+                creationError = true;
+                // throw error;
+            }
+        });
+    }
+
+    const accountQuery = 'INSERT INTO account_information (sin, email, username, password) VALUES (?, ?, ?, ?)';
+    const accountValues = [personInfo.pSIN, personInfo.pEmail, personInfo.pUsername, personInfo.pPassword];
+
+    await pool.query(accountQuery, accountValues, (error, result) => {
+        if (error) {
+            creationError = true;
+            // throw error;
+        }
+    });
+
+    const nurseQuery = "INSERT INTO nurse (sin, type, position_type, hospital_id) VALUES (?, ?, ?, ?)";
+    const nurseValues = [personInfo.pSIN, nurseInfo.nurseType, nurseInfo.positionType, hospital_id];
+
+    await pool.query(nurseQuery, nurseValues, (error, result) => {
+        if (error) {
+            creationError = true;
+            // throw error;
+        }
+    });
+
+    return true;
+}
+
+export async function deleteDoctor(doctorSIN){
+    const value =[doctorSIN];
+
+    const [dap] = await pool.query(`SELECT * FROM doctor_attends_patient WHERE doctor_sin = ?`, [doctorSIN]);
+    if (dap.length >= 1){
+        const deleteAccountInfo = 'DELETE FROM doctor_attends_patient WHERE doctor_sin = ?';
+        await pool.query(deleteAccountInfo, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+
+    const doctorName = await getNameByID(doctorSIN);
+    console.log(doctorName[0].name);
+
+    const [medRec] = await pool.query(`SELECT * FROM medical_record WHERE doctor_name = ?`, [doctorName[0].name]);
+    if (medRec.length >= 1){
+        const deleteMedRec = 'UPDATE medical_record SET doctor_name = ? WHERE doctor_name = ?';
+        await pool.query(deleteMedRec, [null, doctorName[0].name], (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+
+    const [accountExists] = await pool.query(`SELECT * FROM account_information WHERE sin = ?`, [doctorSIN]);
+    if (accountExists.length >= 1){
+        const deleteQuery = 'DELETE FROM account_information WHERE sin = ?';
+        await pool.query(deleteQuery, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+
+    const [docExists] = await pool.query(`SELECT * FROM doctor WHERE sin = ?`, [doctorSIN]);
+    if (docExists.length >= 1){
+        const deleteQueryDoc = 'DELETE FROM doctor WHERE sin = ?';
+        await pool.query(deleteQueryDoc, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+
+    const [personExists] = await pool.query(`SELECT * FROM person WHERE sin = ?`, [doctorSIN]);
+    if (personExists.length >= 1){
+        const deletePersonQuery = 'DELETE FROM person WHERE sin = ?';
+        await pool.query(deletePersonQuery, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+
+    return true;
+}
+
+
+export async function deleteNurse(nurseSIN){
+    const value =[nurseSIN];
+
+    const [dap] = await pool.query(`SELECT * FROM nurse_assists_patient WHERE nurse_sin = ?`, [nurseSIN]);
+    if (dap.length >= 1){
+        const deleteAccountInfo = 'DELETE FROM nurse_assists_patient WHERE nurse_sin = ?';
+        await pool.query(deleteAccountInfo, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+
+    const nurseName = await getNameByID(nurseSIN);
+    console.log(nurseName[0].name);
+
+    const [medRec] = await pool.query(`SELECT * FROM medical_record WHERE nurse_name = ?`, [nurseName[0].name]);
+    if (medRec.length >= 1){
+        const deleteMedRec = 'UPDATE medical_record SET nurse_name = ? WHERE nurse_name = ?';
+        await pool.query(deleteMedRec, [null, nurseName[0].name], (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+
+    const [accountExists] = await pool.query(`SELECT * FROM account_information WHERE sin = ?`, [nurseSIN]);
+    if (accountExists.length >= 1){
+        const deleteQuery = 'DELETE FROM account_information WHERE sin = ?';
+        await pool.query(deleteQuery, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+
+    const [docExists] = await pool.query(`SELECT * FROM nurse WHERE sin = ?`, [nurseSIN]);
+    if (docExists.length >= 1){
+        const deleteQueryDoc = 'DELETE FROM nurse WHERE sin = ?';
+        await pool.query(deleteQueryDoc, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
+
+    const [personExists] = await pool.query(`SELECT * FROM person WHERE sin = ?`, [nurseSIN]);
+    if (personExists.length >= 1){
+        const deletePersonQuery = 'DELETE FROM person WHERE sin = ?';
+        await pool.query(deletePersonQuery, value, (error, result) => {
+            if (error) {
+                return (false);
+            }
+        });
+    }
 
     return true;
 }

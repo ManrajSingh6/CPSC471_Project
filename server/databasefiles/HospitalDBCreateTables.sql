@@ -189,7 +189,7 @@ CREATE TABLE EQUIPMENT (
     	ON DELETE CASCADE,
     equipment_number int NOT NULL,
     manufacturer varchar(32) NOT NULL,
-    warranty_name varchar(10) NULL,
+    warranty_name varchar(255) NULL,
     warranty_start date NULL,
     warranty_length_months int NULL
 );

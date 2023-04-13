@@ -37,7 +37,23 @@ import {
     addNurseToPatient,
     removeNurseFromPatient,
     addMedicationToHospital,
-    addQuantity
+    addQuantity,
+    deleteHospitalMedication,
+    deleteHospitalEquipment,
+    addEquipmentToHospital,
+    getNameByID,
+    addPatientAppointment,
+    removePatientAppointment,
+    modifyPatientAppointment,
+    assignRoom,
+    assignNurse,
+    assignDoctor,
+    deletePatientAccount,
+    getAllHositalDepartments,
+    createDoctor,
+    createNurse,
+    deleteDoctor,
+    deleteNurse
 } from '../server/database.js';
 
 const secret = 'asdfe45we45w345wegw345werjktjwertkj';
@@ -74,7 +90,20 @@ app.post('/login', async (req, res) => {
 
 app.post('/register', async (req, res) => {
     const {patientData, guardianData} = req.body;
-    const registeredUserSuccess = await registerUser(patientData, guardianData);
+    console.log(patientData);
+
+    let doctorName = null;
+    let nurseName = null;
+
+    if (patientData.pDoctorChoice !== null && patientData.pNurseChoice !== null){
+        const tempDoc = await getNameByID(patientData.pDoctorChoice);
+        const tempNurse = await getNameByID(patientData.pNurseChoice);
+
+        doctorName = tempDoc[0].name;
+        nurseName = tempNurse[0].name
+    }
+
+    const registeredUserSuccess = await registerUser(patientData, guardianData, nurseName, doctorName);
 
     if (registeredUserSuccess === "Creation Error" || registeredUserSuccess === "User Exists"){
         res.status(400).json(registeredUserSuccess);
@@ -152,6 +181,13 @@ app.get('/all-rooms/:admin_id', async (req, res) => {
     const {admin_id} = req.params;
     const allHositalRooms = await getAllHospitalRoomInfo(admin_id);
     res.status(200).json(allHositalRooms);
+});
+
+app.get('/room-staff-info/:admin_id', async (req, res) => {
+    const {admin_id} = req.params;
+    const allHospitalRooms = await getAllHospitalRoomInfo(admin_id);
+    const allEmployees = await getAllEmployeesByHospital(admin_id);
+    res.status(200).json({allHospitalRooms, allEmployees});
 });
 
 app.get('/hospital/:admin_id/medications', async (req, res) => {
@@ -303,6 +339,30 @@ app.post('/patient/add-nurse/:id', async (req, res) => {
     }
 });
 
+app.put('/patient/change-nurse/:id', async (req, res) => {
+    const {id} = req.params;
+    const {newNurseSin} = req.body;
+
+    const updatedNurse = await assignNurse(id, newNurseSin);
+    if (updatedNurse){
+        res.status(200).json("Added nurse;");
+    } else {
+        res.status(400).json("Error adding nurse");
+    }
+});
+
+app.put('/patient/change-doctor/:id', async (req, res) => {
+    const {id} = req.params;
+    const {newDoctorSin} = req.body;
+
+    const updatedDoctor = await assignDoctor(id, newDoctorSin);
+    if (updatedDoctor){
+        res.status(200).json("Added doctor");
+    } else {
+        res.status(400).json("Error adding doctor");
+    }
+});
+
 app.post('/patient/remove-nurse/:id', async (req, res) => {
     const {id} = req.params;
     const {removeNurseSin} = req.body;
@@ -339,19 +399,153 @@ app.put('/admin/modify-supply-quantity/:hospitalID', async (req, res) => {
     }
 });
 
+app.post('/admin/delete-item/:hospitalID', async (req, res) => {
+    const {hospitalID} = req.params;
+    const {itemID, supplyType} = req.body;
+
+    if (supplyType === "Medication"){
+        const deleted = await deleteHospitalMedication(itemID, hospitalID);
+        if (deleted) {
+            res.status(200).json('Deleted med;');
+        } else {
+            res.status(400).json('Error deleting med;');
+        }
+    }
+
+    if (supplyType === "Equipment"){
+        const deleted = await deleteHospitalEquipment(itemID, hospitalID);
+        if (deleted) {
+            res.status(200).json('Deleted equipment');
+        } else {
+            res.status(400).json('Error deleting equipment');
+        }
+    }
+});
+
 app.post('/admin/add-equipment/:id', async (req, res) => {
     const {id} = req.params;
     const {equipment} = req.body;
-    console.log(id);
-    console.log(equipment);
-    // const addedEquipment = await addMedicationToHospital(id, equipment);
-
-    // if (addedEquipment){
-    //     res.status(200).json("Added medication");
-    // } else {
-    //     res.status(400).json("Error adding medication");
-    // }
+    const addedEquipment = await addEquipmentToHospital(id, equipment);
+    if (addedEquipment){
+        res.status(200).json("Added equipment");
+    } else {
+        res.status(400).json("Error adding equipment");
+    }
 });
+
+app.post('/patient/add-appointment/:id', async (req, res) => {
+    const {id} = req.params;
+    const {newDateTime} = req.body;
+
+    const addedApp = await addPatientAppointment(id, newDateTime);
+    if (addedApp){
+        res.status(200).json("success");
+    } else {
+        res.status(400).json("Error");
+    }
+});
+
+app.post('/patient/remove-appointment/:id', async (req, res) => {
+    const {id} = req.params;
+    const {removalTime} = req.body;
+    const removedApp = await removePatientAppointment(id, removalTime);
+    if (removedApp){
+        res.status(200).json("success");
+    } else {
+        res.status(400).json("Error");
+    }
+});
+
+app.put('/patient/modify-appointment/:id', async (req, res) => {
+    const {id} = req.params;
+    const {appToChange, newAppTime} = req.body;
+    const modifiedApp = await modifyPatientAppointment(id, appToChange, newAppTime);
+    if (modifiedApp){
+        res.status(200).json("success");
+    } else {
+        res.status(400).json("Error");
+    }
+});
+
+app.put('/patient/assign-room/:id', async (req, res) => {
+    const {id} = req.params;
+    const {newRoom} = req.body;
+
+    const assignedRoom = await assignRoom(id, newRoom);
+    if (assignedRoom){
+        res.status(200).json("success");
+    } else {
+        res.status(400).json("Error");
+    }
+});
+
+app.post('/delete-patient-account', async (req, res) => {
+    const {patientSIN} = req.body;
+    const deletedRecord = await deletePatientAccount(patientSIN);
+    if (deletedRecord){
+        res.status(200).json("success");
+    } else {
+        res.status(400).json("Error");
+    }
+});
+
+app.post('/delete-employee-account', async (req, res) => {
+    const {employeeSIN, employeeType} = req.body;
+    console.log(employeeSIN, employeeType);
+
+    if (employeeType === "doctor"){
+        const deletedDocter = await deleteDoctor(employeeSIN);
+        if (deletedDocter){
+            res.status(200).json("success");
+        } else {
+            res.status(400).json("Error");
+        }
+    }
+
+    if (employeeType === "nurse"){
+        const deletedNurse = await deleteNurse(employeeSIN);
+        if (deletedNurse){
+            res.status(200).json("success");
+        } else {
+            res.status(400).json("Error");
+        }
+    }
+});
+
+app.get('/dept-info/:id', async (req, res) => {
+    const {id} = req.params;
+    const allDeptInfo = await getAllHositalDepartments(id);
+    res.status(200).json(allDeptInfo);
+});
+
+app.post('/add-doctor/:id', async (req, res) => {
+    const {id} = req.params;
+    const {personInfo, doctorInfo} = req.body;
+    const doctorCreated = await createDoctor(id, personInfo, doctorInfo);
+    if (doctorCreated){
+        res.status(200).json("Created");
+    } else {
+        res.status(400).json("Error");
+    }
+    // console.log(personInfo);
+    // console.log(doctorInfo);
+
+});
+
+app.post('/add-nurse/:id', async (req, res) => {
+    const {id} = req.params;
+    const {personInfo, nurseInfo} = req.body;
+    const nurseCreated = await createNurse(id, personInfo, nurseInfo);
+    if (nurseCreated){
+        res.status(200).json("Created");
+    } else {
+        res.status(400).json("Error");
+    }
+    // console.log(personInfo);
+    // console.log(nurseInfo);
+});
+
+
 
 // Run app on port 5000
 const PORT = 5000;

@@ -1,12 +1,13 @@
 import "./RegisterPatientAccountPage.css";
 import { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function RegisterPatientAccountPage(){
+export default function AdminAddPatient(){
 
+    const {id} = useParams();
     const [patientInfo, setPatientInfo] = useState({
         pFullname: "",
         pSIN: "",
@@ -25,9 +26,9 @@ export default function RegisterPatientAccountPage(){
         pUsername: "",
         pPassword: "",
         pPhone: "",
-        pRoomNum: null,
-        pDoctorChoice: null,
-        pNurseChoice: null
+        pRoomNum: "",
+        pDoctorChoice: "",
+        pNurseChoice: ""
     });
 
     const [primaryGuardianInfo, setPrimaryGuardianInfo] = useState({
@@ -43,16 +44,19 @@ export default function RegisterPatientAccountPage(){
         gPostalCode: "",
     });
 
-    const [hospitalOptions, setHospitalOptions] = useState([]);
+    const [roomOptions, setRoomOptions] = useState([]);
+    const [allEmployees, setAllEmployees] = useState([]);
+
     const [isLoading, setIsLoading] = useState(true);
     const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/hospitaloptions`, {
+        fetch(`http://localhost:5000/room-staff-info/${id}`, {
             credentials: 'include',
         }).then(response => {
             response.json().then(resData => {
-                setHospitalOptions(resData);
+                setRoomOptions(resData.allHospitalRooms);
+                setAllEmployees(resData.allEmployees);
                 setIsLoading(false);
             });
         });
@@ -60,9 +64,6 @@ export default function RegisterPatientAccountPage(){
 
     async function registerAccount(ev){
         ev.preventDefault();
-        // console.log(patientInfo);
-        // console.log(primaryGuardianInfo);
-
         const response = await fetch(`http://localhost:5000/register`, {
             method: 'POST',
             body: JSON.stringify({patientData: patientInfo, guardianData: primaryGuardianInfo}),
@@ -71,6 +72,7 @@ export default function RegisterPatientAccountPage(){
 
         if (response.ok){
             response.json().then(res => {
+                toast.success("Successfully added patient");
                 setRedirect(true);
             });
         } else {
@@ -112,12 +114,12 @@ export default function RegisterPatientAccountPage(){
     }
 
     if (redirect){
-        return (<Navigate to="/"/>);
+        return (<Navigate to={`/admin/${id}/manage-patients`}/>);
     }
 
     return(
         <div className="main-creation-container">
-            <h1>Create A Patient Account</h1>
+            <h1>Add New Patient</h1>
             <form onSubmit={registerAccount}>
                 <label style={{marginTop: "30px"}} htmlFor="name-sin-dob-container">Full name, SIN Number and Date of Birth</label>
                 <div className="input-container" id="name-sin-dob-container">
@@ -222,11 +224,36 @@ export default function RegisterPatientAccountPage(){
                         name="pHeight"       
                         onChange={handlePatientInfoChange}       
                     />
-                    <select id="hospital-pref" name="pHospitalPref" value={patientInfo.pHospitalPref} onChange={handlePatientInfoChange}>
-                        <option value="">Select Hospital Preference</option>
+                </div>
+                <label htmlFor="employee-assign">Assign Room and Staff</label>
+                <div className="input-container" id="employee-assign">
+                    <select id="hospital-pref" required name="pHospitalPref" value={patientInfo.pHospitalPref} onChange={handlePatientInfoChange}>
+                        <option value="">Assign Hospital</option>
+                        <option value={roomOptions[0].hospital_id}>{roomOptions[0].hospital_id}</option>
+                    </select>
+                    <select id="hospital-room-pref" required name="pRoomNum" value={patientInfo.pRoomNum} onChange={handlePatientInfoChange}>
+                        <option value="">Assign Room To Patient</option>
                         {
-                            hospitalOptions.map((item, index) => {
-                                return(<option key={index} value={item.hospital_id}>{item.hospital_name}</option>);
+                            roomOptions.map((item, index) => {
+                                return(<option key={index} value={item.room_number}>{item.room_number}</option>);
+                            })
+                        }
+                    </select>
+
+                    <select id="hospital-doctor-pref" required name="pDoctorChoice" value={patientInfo.pDoctorChoice} onChange={handlePatientInfoChange}>
+                        <option value="">Assign Doctor To Patient</option>
+                        {
+                            allEmployees.allDoctors.map((item, index) => {
+                                return(<option key={index} value={item.sin}>{item.name}</option>);
+                            })
+                        }
+                    </select>
+
+                    <select id="hospital-nurse-pref" required name="pNurseChoice" value={patientInfo.pNurseChoice} onChange={handlePatientInfoChange}>
+                        <option value="">Assign Nurse To Patient</option>
+                        {
+                            allEmployees.allNurses.map((item, index) => {
+                                return(<option key={index} value={item.sin}>{item.name}</option>);
                             })
                         }
                     </select>
@@ -355,7 +382,7 @@ export default function RegisterPatientAccountPage(){
                         onChange={handlePatientInfoChange}
                     />
                 </div>
-                <button className="primary-btn">Register</button>
+                <button className="primary-btn">Register New Patient</button>
             </form>
         </div>
     )

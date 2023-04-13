@@ -1,7 +1,7 @@
 import "./AdminPagesStyles.css";
 import EmployeeCard from "../components/EmployeeCard";
 import { useState, useEffect } from "react";
-import {useParams} from "react-router-dom";
+import {useParams, Link} from "react-router-dom";
   
 export default function AdminManageEmployeesPage(){
     const [searchQuery, setSearchQuery] = useState('');
@@ -30,10 +30,6 @@ export default function AdminManageEmployeesPage(){
         setTempSearchQuery('');
     }
 
-    function addEmployee(ev){
-        ev.preventDefault();
-    }
-
     if (isLoading){
         return(<div className="main-report-container">Loading</div>)
     }
@@ -52,12 +48,13 @@ export default function AdminManageEmployeesPage(){
                 style={{marginTop: "25px", marginBottom: "25px", alignSelf: "center"}}>
                 Find
             </button>
-            <button 
-                className="primary-btn" 
-                onClick={addEmployee}
-                style={{marginTop: "25px", marginBottom: "25px", alignSelf: "flex-start"}}>
-                Add Employee
-            </button>
+            <Link to={`/admin/${id}/add-employee`}>
+                <button 
+                    className="primary-btn" 
+                    style={{marginTop: "25px", marginBottom: "25px", alignSelf: "flex-start"}}>
+                    Add Employee
+                </button>
+            </Link>
             {
                 allDoctors.filter((val) => {
                 if (searchQuery === ""){ return val;} 
@@ -75,7 +72,7 @@ export default function AdminManageEmployeesPage(){
                 else if (val.name.toLowerCase().includes(searchQuery.toLowerCase())){ return val; }
                 }).map((employee, index) => {
                     return(
-                        <EmployeeCard key={index} {...employee}/>
+                        <EmployeeCard key={index} {...employee} cardType="nurse"/>
                     )
                 })
             }

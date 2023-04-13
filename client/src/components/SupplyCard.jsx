@@ -13,7 +13,16 @@ export default function SupplyCard(props){
     }
 
     async function deleteItem(){
-
+        const response = await fetch(`http://localhost:5000/admin/delete-item/${props.hospital_id}`, {
+            method: 'POST',
+            body: JSON.stringify({itemID: props.item_id, supplyType: props.itemType}),
+            headers: {'Content-Type':'application/json'}
+        });
+        if (response.ok){
+            window.location.reload();
+        } else {
+            toast.error("Error deleting " + props.itemType);
+        }
     }
 
     async function addQuantity(){

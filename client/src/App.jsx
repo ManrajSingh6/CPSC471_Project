@@ -23,6 +23,8 @@ import AdminViewRoomsPage from "./pages/AdminViewRooms.jsx";
 import AdminManageEmployeesPage from "./pages/AdminManageEmployeesPage.jsx";
 import AdminManagePatientsPage from "./pages/AdminManagePatientsPage.jsx";
 import RegisterPatientAccountPage from "./pages/RegisterPatientAccountPage.jsx";
+import AdminAddPatient from "./pages/AdminAddPatient.jsx";
+import AdminAddEmployee from "./pages/AdminAddEmployee.jsx";
 
 function App() {
   return (
@@ -54,6 +56,8 @@ function App() {
             <Route path={'/admin/:id/manage-employees'} element={<AdminManageEmployeesPage />} />
             <Route path={'/admin/:id/manage-equipment'} element={<AdminViewEquipmentPage />} />
             <Route path={'/admin/:id/manage-medications'} element={<AdminViewMedicationsPage />} />
+            <Route path={'/admin/:id/add-patient'} element={<AdminAddPatient />} />
+            <Route path={'/admin/:id/add-employee'} element={<AdminAddEmployee />} />
             <Route path={'/admin/:id/profile'} element={<AdminProfilePage />} />
 
           </Route>
