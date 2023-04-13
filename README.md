@@ -7,7 +7,7 @@ After cloning/downloading the repository, change directiories into the ``client`
 In this directory, run the following command ``npm install``. Once the packages have been installed,
 you can open the Vite ReactJS frontend at ``http://localhost:8000/``.
 
-Now change directories into the ``server`` diretory and run the following command again ``npm install``.
+Now change directories into the ``server`` directory and run the following command again ``npm install``.
 After the packages are installed, run the ``npm run dev`` command again to run the ExpressJS server.
 
 ### How to setup the MySQL database:
